@@ -17,10 +17,6 @@ module.exports = (sequelize) => {
     time_start:{
         type: DataTypes.TIME,
         allowNull: false,
-    },
-    cancha_id:{
-        type: DataTypes.INTEGER,
-        allowNull: false,
     }
     });
 };
