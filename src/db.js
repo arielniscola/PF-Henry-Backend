@@ -31,6 +31,19 @@ sequelize.models = Object.fromEntries(capsEntries);
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
 
+const { Client, Complejo, Config, Court, Event, Turno } = sequelize.models;
+
+Complejo.belongsToMany(Event, {through: 'Complejo_Event',  timestamps: false });
+Event.belongsToMany(Complejo, {through: 'Complejo_Event',  timestamps: false });
+Complejo.belongsToMany(Config, {through: 'Complejo_Config',  timestamps: false });
+Config.belongsToMany(Complejo, {through: 'Complejo_Config',  timestamps: false });
+Complejo.belongsToMany(Court, {through: 'Complejo_Court',  timestamps: false });
+Court.belongsToMany(Complejo, {through: 'Complejo_Court',  timestamps: false });
+Court.belongsToMany(Turno, {through: 'Court_Turno',  timestamps: false });
+Turno.belongsToMany(Court, {through: 'Court_Turno',  timestamps: false });
+Turno.belongsToMany(Client, {through: 'Turno_Client',  timestamps: false });
+Client.belongsToMany(Turno, {through: 'Turno_Client',  timestamps: false });
+Turno.belongsToMany(Court, {through: 'steps_ingredients',  timestamps: false });
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
