@@ -1,4 +1,5 @@
 const complejoService = require("../services/complejo.service");
+const { Complejo } = require('../db');
 
 const getAllComplejos = async (req, res) => {
     try {
@@ -32,19 +33,31 @@ const getComplejoID = async (req, res) => {
 
 const updateComplejo = async (req, res) => {
     try {
-        const data = await complejoService.updateComplejo(req.body);
+        const {id} = req.params;
+        const {name, cuit, logo, addres} = req.body;
 
-        res.status(201).json(data);
+        const complejo = await Complejo.findByPk(id);
+        complejo.name = name;
+        complejo.cuit = cuit;
+        complejo.logo = logo;
+        complejo.addres = addres;
+
+        await complejo.save();
+        res.json(complejo);
     } catch (error) {
-        res.status(400).json(data);
+        res.status(400).json(error)
     }
 }
 
 const deleteComplejo = async (req, res) => {
     try {
-        const data = await complejoService.deleteComplejo(req.params.id);
-
-        res.status(200).json(data)
+        const {id} = req.params.id;
+        await Complejo.destroy({
+            where:{
+                id,
+            },
+        });
+        res.status(204)
     } catch (error) {
         res.status(200).json(error)
     }

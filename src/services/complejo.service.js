@@ -30,18 +30,8 @@ const getComplejoID = async (id) => {
     return data
 }
 
-const updateComplejo = async (obj) => {
-
-}
-
-const deleteComplejo = async (id) =>{
-
-}
-
 module.exports = {
     createComplejo,
     getAllComplejos,
     getComplejoID,
-    updateComplejo,
-    deleteComplejo
 }
