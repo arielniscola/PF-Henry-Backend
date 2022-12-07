@@ -43,7 +43,6 @@ Court.belongsToMany(Turno, {through: 'Court_Turno',  timestamps: false });
 Turno.belongsToMany(Court, {through: 'Court_Turno',  timestamps: false });
 Turno.belongsToMany(Client, {through: 'Turno_Client',  timestamps: false });
 Client.belongsToMany(Turno, {through: 'Turno_Client',  timestamps: false });
-Turno.belongsToMany(Court, {through: 'steps_ingredients',  timestamps: false });
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
