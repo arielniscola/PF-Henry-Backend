@@ -46,7 +46,7 @@ const deleteComplejo = async (req, res) => {
 
         res.status(200).json(data)
     } catch (error) {
-        res.status(200).json(error)
+        res.status(400).json(error)
     }
 }
 
