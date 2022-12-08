@@ -30,14 +30,31 @@ const getComplejoID = async (id) => {
     return data
 }
 
-const updateComplejo = async (obj) => {
+const updateComplejo = async (id, data) =>{
+    try {
+        const {name, cuit, logo, addres} = data; 
 
+        const complejo = await Complejo.findByPk(id);
+        complejo.name = name;
+        complejo.cuit = cuit;
+        complejo.logo = logo;
+        complejo.addres = addres;
+
+        await complejo.save();
+        return complejo;
+    } catch (error) {
+        res.status(400).json(error)
+    }
 }
 
-const deleteComplejo = async (id) =>{
-
-}
-
+const deleteComplejo = async(id) =>{
+    await Complejo.destroy({
+        where:{
+            id,
+        },
+    });
+    return Complejo;
+} 
 module.exports = {
     createComplejo,
     getAllComplejos,
