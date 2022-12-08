@@ -32,19 +32,19 @@ const getComplejoID = async (req, res) => {
 
 const updateComplejo = async (req, res) => {
     try {
-        const data = await complejoService.updateComplejo(req.body);
-
-        res.status(201).json(data);
+        const {id} = req.params.id;
+        const complejo = await complejoService.updateComplejo(id, req.body);
+        res.json(complejo);
     } catch (error) {
-        res.status(400).json(data);
+        res.status(400).json(error)
     }
 }
 
 const deleteComplejo = async (req, res) => {
     try {
-        const data = await complejoService.deleteComplejo(req.params.id);
-
-        res.status(200).json(data)
+        const {id} = req.params.id;
+        const complejo = await complejoService.deleteComplejo(id);
+        res.json(complejo)
     } catch (error) {
         res.status(400).json(error)
     }
