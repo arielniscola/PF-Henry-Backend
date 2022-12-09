@@ -41,7 +41,6 @@ const updateComplejo = async (id, data) =>{
         complejo.addres = addres;
 
         await complejo.save();
-        return complejo;
     } catch (error) {
         res.status(400).json(error)
     }

@@ -7,12 +7,13 @@ const {
     deleteComplejo
 } = require("../controllers/complejo.controller.js");
 
+
 const complejoRoutes = Router();
 
 complejoRoutes.get("/", getAllComplejos);
 complejoRoutes.get("/:id", getComplejoID);
 complejoRoutes.post("/", createComplejo );
-complejoRoutes.put("/update", updateComplejo);
-complejoRoutes.delete("/delete", deleteComplejo);
+complejoRoutes.put("/update/:id", updateComplejo);
+complejoRoutes.delete("/delete/:id", deleteComplejo);
 
 module.exports = complejoRoutes;

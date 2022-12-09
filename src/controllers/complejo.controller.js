@@ -1,4 +1,5 @@
 const complejoService = require("../services/complejo.service");
+const { Complejo } = require('../db');
 
 const getAllComplejos = async (req, res) => {
     try {
@@ -13,7 +14,6 @@ const getAllComplejos = async (req, res) => {
 const createComplejo = async (req, res) => {
     try {
         const data = await complejoService.createComplejo(req.body);
-
         res.status(201).json(data);
     } catch (error) {
         res.status(400).json(error);
@@ -32,9 +32,9 @@ const getComplejoID = async (req, res) => {
 
 const updateComplejo = async (req, res) => {
     try {
-        const {id} = req.params.id;
-        const complejo = await complejoService.updateComplejo(id, req.body);
-        res.json(complejo);
+        const {id} = req.params;
+        await complejoService.updateComplejo(id, req.body);
+        res.send('Complejo updated successfully');
     } catch (error) {
         res.status(400).json(error)
     }
@@ -42,11 +42,11 @@ const updateComplejo = async (req, res) => {
 
 const deleteComplejo = async (req, res) => {
     try {
-        const {id} = req.params.id;
-        const complejo = await complejoService.deleteComplejo(id);
-        res.json(complejo)
+        const {id} = req.params;
+        await complejoService.deleteComplejo(id);
+        res.send('Complejo Deleted successfully');
     } catch (error) {
-        res.status(400).json(error)
+        res.status(400).json({message: error.message});
     }
 }
 
