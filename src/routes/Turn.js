@@ -1,11 +1,16 @@
 const { Router } = require("express");
-
+const {
+    deletedTurn,
+    getTurnsComplejo,
+    createTurn,
+    getTurnID
+} = require("../controllers/turn.controller");
 
 const turnRoutes = Router();
 
-turnRoutes.get('/', (req, res) => {});
-turnRoutes.get('/:id', (req, res) => {});
-turnRoutes.post('/', (req, res) => {});
-
+turnRoutes.get('/:idComplejo', getTurnsComplejo);
+turnRoutes.get('/:id', getTurnID);
+turnRoutes.post('/:idClient/:idCourt',createTurn);
+turnRoutes.delete('/:id', deletedTurn);
 
 module.exports = turnRoutes;
