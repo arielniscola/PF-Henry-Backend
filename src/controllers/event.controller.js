@@ -1,4 +1,4 @@
-const eventService = requiere('../services/evento.service');
+const eventService = require('../services/evento.service');
 const { Event } = require('../db');
 
 //Trae los eventos
