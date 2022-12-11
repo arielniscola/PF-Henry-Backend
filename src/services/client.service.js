@@ -24,8 +24,38 @@ const getClientID = async (id) => {
     return data
 }
 
+//Actualiza el cliente
+const updateClient = async (id, data) =>{
+    try {
+        const {name, celNumber, direction, dni, country} = data; 
+
+        const cliente = await Client.findByPk(id);
+        cliente.name = name;
+        cliente.celNumber = celNumber;
+        cliente.direction = direction;
+        cliente.dni = dni;
+        cliente.country = country;
+
+        await cliente.save();
+    } catch (error) {
+        res.status(400).json(error)
+    }
+}
+
+//Elimina el cliente
+const deleteClient = async(id) =>{
+    await Client.destroy({
+        where:{
+            id,
+        },
+    });
+    return Client;
+} 
+
 module.exports = {
     getAllClients,
     createClient,
-    getClientID
+    getClientID,
+    updateClient,
+    deleteClient
 }

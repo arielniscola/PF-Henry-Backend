@@ -33,10 +33,25 @@ const deleteTypeCourt = async(id) =>{
     return deleted;
 }
 
+const updateTypeCourt = async (id, data) =>{
+    try {
+        const {description, icon} = data; 
+
+        const typecourt = await TypeCourt.findByPk(id);
+        typecourt.description = description;
+        typecourt.icon = icon;
+
+        await typecourt.save();
+    } catch (error) {
+        res.status(400).json(error)
+    }
+}
+
 
 module.exports = {
     getAllTypeCourt,
     createTypeCourt,
     getTypeCourtID,
-    deleteTypeCourt
+    deleteTypeCourt,
+    updateTypeCourt
 }

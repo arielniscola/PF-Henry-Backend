@@ -1,5 +1,4 @@
-const clientService = requiere('../services/client.service.js');
-const { Client } = require('../db');
+const clientService = require('../services/client.service.js');
 
 //Trae los clientes
 const getAllClients = async (req, res) => {
@@ -7,7 +6,7 @@ const getAllClients = async (req, res) => {
         const data = await clientService.getAllClients();
         res.status(200).json(data);
     } catch (error) {
-        res.status(404).json(error);
+        res.status(404).json({message : error.message});
     }
 }
 
@@ -34,15 +33,11 @@ const getClientID = async (req, res) => {
 //Elimina el cliente
 const deleteClient = async (req, res) => {
     try {
-        const {id} = req.params.id;
-        await Client.destroy({
-            where:{
-                id,
-            },
-        });
-        res.status(204)
+        const {id} = req.params;
+        await clientService.deleteClient(id);
+        res.send('Client Deleted successfully');
     } catch (error) {
-        res.status(200).json(error)
+        res.status(400).json({message: error.message});
     }
 }
 
@@ -50,17 +45,8 @@ const deleteClient = async (req, res) => {
 const updateClient = async (req, res) => {
     try {
         const {id} = req.params;
-        const {name, celNumber, direction, dni, country} = req.body;
-
-        const client = await Client.findByPk(id);
-        client.name = name;
-        client.celNumber = celNumber;
-        client.direction = direction;
-        client.dni = dni;
-        client.country = country;
-
-        await client.save();
-        res.json(client);
+        await clientService.updateClient(id, req.body);
+        res.send('Client updated successfully');
     } catch (error) {
         res.status(400).json(error)
     }

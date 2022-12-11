@@ -22,5 +22,7 @@ module.exports = (sequelize) => {
     addres:{
         type: DataTypes.STRING,
     }
+    },{
+        timestamps: false
     });
 };
