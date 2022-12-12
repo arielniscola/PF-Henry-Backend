@@ -3,7 +3,7 @@ const typeCourtService = require("../services/typeCourt.service");
 
 const getAllTypeCourt = async(req, res) =>{
     try {
-        const typeCourts = await typeCourtService.getAllTypeCourt();
+        const data = await typeCourtService.getAllTypeCourt();
         res.status(200).json(data);
     } catch (error) {
         res.status(404).json(error);
@@ -29,10 +29,20 @@ const getTypeCourtID = async (req, res) => {
 }
 const deleteTypeCourt = async (req, res) => {
     try {
-        const result = await typeCourtService.deleteTypeCourt(req.params.id);
-        res.status(200).json(result)
+        await typeCourtService.deleteTypeCourt(req.params.id);
+        res.send('TypeCourt deleted successfully');
     } catch (error) {
         res.status(404).json(error)
+    }
+}
+
+const updateTypeCourt = async (req, res) => {
+    try {
+        const {id} = req.params;
+        await typeCourtService.updateTypeCourt(id, req.body);
+        res.send('TypeCourt updated successfully');
+    } catch (error) {
+        res.status(400).json(error)
     }
 }
 
@@ -40,5 +50,6 @@ module.exports = {
     getAllTypeCourt,
     createTypeCourt,
     getTypeCourtID,
-    deleteTypeCourt
+    deleteTypeCourt,
+    updateTypeCourt
 }

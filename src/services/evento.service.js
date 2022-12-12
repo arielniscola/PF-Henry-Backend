@@ -9,11 +9,18 @@ const getAllEvents = async () => {
 
 //Crea un evento
 const createEvent = async (data) => {
-    const { event_date, tittle, img, description } = data
-    if(!event_date && !tittle && !img && !description) throw "Required data"
-    const newEvent = await Event.create(data);
-    if(!newEvent) throw "Event not created"
-    return newEvent
+    console.log(data);
+    const { event_date, tittle, img, description, complejoId } = data
+    // if(!event_date && !tittle && !img && !description) throw "Required data"
+    const newEvent = await Event.create({
+        event_date,
+        tittle,
+        img,
+        description,
+        complejoId
+    });
+    // if(!newEvent) throw "Event not created"
+    // return newEvent
 }
 
 //trae evento por id

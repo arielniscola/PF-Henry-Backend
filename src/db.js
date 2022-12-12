@@ -6,7 +6,7 @@ const {
   DB_USER, DB_PASSWORD, DB_HOST,
 } = process.env;
 
-const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/courtreservations`, {
+const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/prueba1`, {
   logging: false, // set to console.log to see the raw SQL queries
   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
 });
@@ -33,19 +33,64 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 const { Client, Complejo, Config, Court, Event, Turno } = sequelize.models;
 
-Complejo.belongsToMany(Event, {through: 'Complejo_Event',  timestamps: false });
-Event.belongsToMany(Complejo, {through: 'Complejo_Event',  timestamps: false });
-Complejo.belongsToMany(Config, {through: 'Complejo_Config',  timestamps: false });
-Config.belongsToMany(Complejo, {through: 'Complejo_Config',  timestamps: false });
-Complejo.belongsToMany(Court, {through: 'Complejo_Court',  timestamps: false });
-Court.belongsToMany(Complejo, {through: 'Complejo_Court',  timestamps: false });
-Court.belongsToMany(Turno, {through: 'Court_Turno',  timestamps: false });
-Turno.belongsToMany(Court, {through: 'Court_Turno',  timestamps: false });
-Turno.belongsToMany(Client, {through: 'Turno_Client',  timestamps: false });
-Client.belongsToMany(Turno, {through: 'Turno_Client',  timestamps: false });
+// Complejo.belongsToMany(Event, {through: 'Complejo_Event',  timestamps: false });
+Complejo.hasMany(Event,{
+  foreignKey: 'complejoId',
+  sourceKey: 'id'
+});
+// Event.belongsToMany(Complejo, {through: 'Complejo_Event',  timestamps: false });
+Event.belongsTo(Complejo,{
+  foreignKey: 'complejoId',
+  targetId: 'id'
+});
+// Complejo.belongsToMany(Config, {through: 'Complejo_Config',  timestamps: false });
+Complejo.hasMany(Config,{
+  foreignKey: 'complejoId',
+  sourceKey: 'id'
+});
+// Config.belongsToMany(Complejo, {through: 'Complejo_Config',  timestamps: false });
+Config.belongsTo(Complejo,{
+  foreignKey: 'complejoId',
+  targetId: 'id'
+});
+// Complejo.belongsToMany(Court, {through: 'Complejo_Court',  timestamps: false });
+Complejo.hasMany(Court,{
+  foreignKey: 'complejoId',
+  sourceKey: 'id'
+});
+// Court.belongsToMany(Complejo, {through: 'Complejo_Court',  timestamps: false });
+Court.belongsTo(Complejo,{
+  foreignKey: 'complejoId',
+  targetId: 'id'
+});
+// Court.belongsToMany(Turno, {through: 'Court_Turno',  timestamps: false });
+Court.hasMany(Turno,{
+  foreignKey: 'courtId',
+  sourceKey: 'id'
+});
+// Turno.belongsToMany(Court, {through: 'Court_Turno',  timestamps: false });
+Turno.belongsTo(Court,{
+  foreignKey: 'turnoId',
+  targetId: 'id'
+});
+// Turno.belongsToMany(Client, {through: 'Turno_Client',  timestamps: false });
+Turno.belongsTo(Client,{
+  foreignKey: 'turnoId',
+  targetId: 'id'
+});
+// Client.belongsToMany(Turno, {through: 'Turno_Client',  timestamps: false });
+Client.hasMany(Turno,{
+  foreignKey: 'clientId',
+  sourceKey: 'id'
+});
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
+
+
+
+
+
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

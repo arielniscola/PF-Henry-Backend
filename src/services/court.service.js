@@ -11,7 +11,11 @@ const createCourt = async (data) => {
 
   const { numberCourt, description, typeCourt } = data;
   if (!numberCourt) throw "Required data missing";
-  const newCourt = await Court.create(data);
+  const newCourt = await Court.create({
+    numberCourt: data.numberCourt,
+    description: data.description,
+    typeCourt: data.typeCourt
+  });
   if (!newCourt) throw "Object no create";
   return newCourt;
 };
@@ -24,9 +28,28 @@ const getCourtID = async (id) => {
   return data;
 };
 
-const updateCourt = async (obj) => {};
+const updateCourt = async (id, data) => {
+  try {
+    const {numberCourt, description, typeCourt} = data; 
 
-const deleteCourt = async (id) => {};
+    const court = await Court.findByPk(id);
+    court.numberCourt = numberCourt;
+    court.description = description;
+    court.typeCourt = typeCourt;
+
+    await court.save();
+} catch (error) {
+    res.status(400).json(error)
+}
+};
+
+const deleteCourt = async (id) => {
+  await Court.destroy({
+    where:{
+        id,
+    },
+});
+};
 
 module.exports = {
   createCourt,
