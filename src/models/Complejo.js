@@ -14,7 +14,7 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
     },
     cuit:{
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
     },
     logo:{
         type: DataTypes.STRING,
