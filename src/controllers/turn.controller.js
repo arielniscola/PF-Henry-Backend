@@ -13,9 +13,7 @@ const getAllTurns = async (req, res) => {
 //crea el turno
 const createTurn = async(req, res) => {
     try {
-        const {clientId, courtId} = req.params;
-        const turn = await turnService.createTurn(req.body);
-        
+        await turnService.createTurn(req.body);
         res.send('Turn created successfully');
     } catch (error) {
         res.status(404).json(error);
