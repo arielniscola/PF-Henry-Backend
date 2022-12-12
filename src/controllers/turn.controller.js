@@ -1,21 +1,31 @@
-const turnService = require("../db");
+const turnService = require("../services/turn.service");
 
+//Trae los turnos
+const getAllTurns = async (req, res) => {
+    try {
+        const data = await turnService.getAllTurns();
+        res.status(200).json(data);
+    } catch (error) {
+        res.status(404).json({message : error.message});
+    }
+}
+
+//crea el turno
 const createTurn = async(req, res) => {
     try {
-        const {idClient, idCourt} = req.params;
-       
-        const turn = await turnService.createTurn(idClient, idCourt, req.body);
+        const {clientId, courtId} = req.params;
+        const turn = await turnService.createTurn(req.body);
         
-        res.status(201).json(turn);
+        res.send('Turn created successfully');
     } catch (error) {
-        res.status(404).json(error)
+        res.status(404).json(error);
     }
 }
 
 const deletedTurn = async(req, res) => {
     try {
-        const result = await turnService.deletedTurn(req.params.id);
-        res.status(200).json(result);
+        await turnService.deleteTurn(req.params.id);
+        res.send('Turn deleted successfully');
     } catch (error) {
         res.status(404).json(error);
     }
@@ -39,10 +49,22 @@ const getTurnID = async(req, res) => {
     }
 }
 
+const updateTurn = async (req, res) => {
+    try {
+        const {id} = req.params;
+        await turnService.updateTurn(id, req.body);
+        res.send('Turn updated successfully');
+    } catch (error) {
+        res.status(400).json(error)
+    }
+}
+
 
 module.exports = {
+    getAllTurns,
     createTurn,
     deletedTurn,
     getTurnsComplejo,
-    getTurnID
+    getTurnID,
+    updateTurn
 }

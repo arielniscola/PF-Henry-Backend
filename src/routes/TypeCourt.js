@@ -3,14 +3,16 @@ const {
     getAllTypeCourt,
     getTypeCourtID,
     createTypeCourt,
-    deleteTypeCourt
- } = require("../controllers/typeCourt.controller");
+    deleteTypeCourt,
+    updateTypeCourt
+} = require("../controllers/typeCourt.controller");
 
 const typeCourtRoutes = Router();
 
-typeCourtRoutes.get('/', getAllTypeCourt);
+typeCourtRoutes.get('/all', getAllTypeCourt);
 typeCourtRoutes.get('/:id', getTypeCourtID);
-typeCourtRoutes.post('/', createTypeCourt);
-typeCourtRoutes.delete('/:id', deleteTypeCourt);
+typeCourtRoutes.post('/create', createTypeCourt);
+typeCourtRoutes.delete('/delete/:id', deleteTypeCourt);
+typeCourtRoutes.put('/update/:id', updateTypeCourt);
 
-module.exports = turnRoutes;
+module.exports = typeCourtRoutes;

@@ -21,12 +21,10 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING
     },
     dni:{
-        type: DataTypes.STRING
+        type: DataTypes.INTEGER
     },
     country:{
         type: DataTypes.STRING
     }
-
-    }
-    );
-}
+    });
+};
