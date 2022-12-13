@@ -11,11 +11,13 @@ module.exports = (sequelize) => {
         primaryKey: true
     },
     open_days: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
-        validate:{
-            isIn:['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'],
-            msg: 'day does not exist'
-        },
+        type: DataTypes.STRING,
+        // type: DataTypes.ARRAY(DataTypes.STRING),
+        // validate:{
+        //     isIn:['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'],
+        //     // msg: 'day does not exist'
+        //     notEmpty: true
+        // },
         allowNull: false,
     },
     duration_turno:{

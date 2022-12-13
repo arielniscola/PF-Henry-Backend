@@ -13,19 +13,20 @@ const getAllComplejos = async () => {
 const createComplejo = async (data) => {
     const { name, cuit, logo, addres } = data
    
-    const imageUpload = await cloudinary.uploader.upload(logo, {
-         folder: "henry",
-         upload_preset: "ml_default"
+    // const imageUpload = await cloudinary.uploader.upload(logo, {
+    //      folder: "henry",
+    //      upload_preset: "ml_default"
        
-     })
-    if(!imageUpload) throw "Error upload image"
-    if(!name) throw "Required data missing"
+    //  })
+    // if(!imageUpload) throw "Error upload image"
+    // if(!name) throw "Required data missing"
 
     const newComplejo = await Complejo.create({
         name,
         cuit,
         addres,
-        logo: imageUpload.secure_url
+        logo,
+        // logo: imageUpload.secure_url
     });
 
     if(!newComplejo) throw "Object no create"
