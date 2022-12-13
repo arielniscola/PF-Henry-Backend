@@ -5,7 +5,7 @@ const {
     getClientID,
     deleteClient,
     updateClient
-    } = require("../controllers/client.controllers.js");
+    } = require("../controllers/client.controller.js");
 
 
 const clientRoutes = Router();

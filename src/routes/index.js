@@ -1,12 +1,12 @@
 const { Router } = require('express');
 // Importar todos los routers;
-const client = require("../routes/Client");
-const complejo = require("../routes/Complejo");
-const court = require("../routes/Court");
-const turn = require("../routes/Turn");
-const typeCourt = require("../routes/TypeCourt");
-const event = require("../routes/Event");
-
+const client = require("../routes/Client.js");
+const complejo = require("../routes/Complejo.js");
+const court = require("../routes/Court.js");
+const turn = require("../routes/Turn.js");
+const typeCourt = require("../routes/TypeCourt.js");
+const event = require("../routes/Event.js");
+const servicescomplejo = require("../routes/ServicesComplejo.js")
 
 const router = Router();
 
@@ -17,6 +17,7 @@ router.use("/court", court)
 router.use("/turn", turn)
 router.use("/typecourt", typeCourt)
 router.use("/event", event)
+router.use("/servicescomplejo", servicescomplejo)
 
 
 
