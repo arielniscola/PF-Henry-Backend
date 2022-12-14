@@ -36,7 +36,7 @@ sequelize.models = Object.fromEntries(capsEntries);
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
 
-const { Client, Complejo, Config, Court, Event, Turno, TypeCourt } = sequelize.models;
+const { Client, Complejo, Config, Court, Event, Turno, TypeCourt, Favorites } = sequelize.models;
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
@@ -88,6 +88,14 @@ TypeCourt.hasMany(Court,{
   }
 });
 Court.belongsTo(TypeCourt);
+
+Client.hasMany(Favorites,{
+  foreignKey:{
+    type: DataTypes.UUID,
+    allowNull: false
+  }
+});
+Favorites.belongsTo(Client);
 
 
 module.exports = {

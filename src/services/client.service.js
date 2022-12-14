@@ -1,8 +1,8 @@
-const { Client } = require('../db');
+const { Client, Favorites } = require('../db');
 
 //Trae los clientes de la db
 const getAllClients = async () => {
-    const data = await Client.findAll();
+    const data = await Client.findAll({include:{model: Favorites}});
     if(!data) throw "No data"
     return data
 } 
@@ -19,7 +19,12 @@ const createClient = async (data) => {
 //trae cliente por id
 const getClientID = async (id) => {
     if(!id) throw "Id not found"
-    const data = await Client.findByPk(id);
+    const data = await Client.findByPk(id,{
+        include: [
+            {model: Favorites,},
+        ],
+    });
+    console.log(data);
     if(!data) throw "Client not found"
     return data
 }

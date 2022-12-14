@@ -7,6 +7,7 @@ const turn = require("../routes/Turn");
 const typeCourt = require("../routes/TypeCourt");
 const event = require("../routes/Event");
 const config = require("../routes/Config");
+const favorites = require("../routes/Favorites");
 
 
 const router = Router();
@@ -19,6 +20,7 @@ router.use("/turn", turn)
 router.use("/typecourt", typeCourt)
 router.use("/event", event)
 router.use("/config", config)
+router.use("/favorites", favorites)
 
 
 
