@@ -6,6 +6,7 @@ const court = require("../routes/Court");
 const turn = require("../routes/Turn");
 const typeCourt = require("../routes/TypeCourt");
 const event = require("../routes/Event");
+const notification = require("./Notifications");
 
 
 const router = Router();
@@ -17,7 +18,7 @@ router.use("/court", court)
 router.use("/turn", turn)
 router.use("/typecourt", typeCourt)
 router.use("/event", event)
-
+router.use("/notification", notification);
 
 
 
