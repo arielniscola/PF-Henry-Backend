@@ -1,8 +1,8 @@
-const { Client } = require('../db');
+const { Client, Favorites } = require('../db');
 
 //Trae los clientes de la db
 const getAllClients = async () => {
-    const data = await Client.findAll();
+    const data = await Client.findAll({include:{model: Favorites}});
     if(!data) throw "No data"
     return data
 } 
