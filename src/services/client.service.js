@@ -19,7 +19,12 @@ const createClient = async (data) => {
 //trae cliente por id
 const getClientID = async (id) => {
     if(!id) throw "Id not found"
-    const data = await Client.findByPk(id);
+    const data = await Client.findByPk(id,{
+        include: [
+            {model: Favorites,},
+        ],
+    });
+    console.log(data);
     if(!data) throw "Client not found"
     return data
 }
