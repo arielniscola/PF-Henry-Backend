@@ -9,11 +9,7 @@ const getAllCourt = async () => {
 const createCourt = async (data) => {
   const { numberCourt, description, typeCourt } = data;
   if (!numberCourt) throw "Required data missing";
-  const newCourt = await Court.create({
-    numberCourt: data.numberCourt,
-    description: data.description,
-    typeCourt: data.typeCourt
-  });
+  const newCourt = await Court.create(data);
   if (!newCourt) throw "Object no create";
   return newCourt;
 };
