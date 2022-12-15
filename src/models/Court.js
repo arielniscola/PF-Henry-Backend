@@ -18,7 +18,7 @@ module.exports = (sequelize) => {
         description:{
             type: DataTypes.STRING
         },
-        typeCourt: {
+        type_Court: {
             type: DataTypes.STRING
         }
     }

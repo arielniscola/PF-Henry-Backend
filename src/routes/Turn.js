@@ -10,7 +10,7 @@ const {
 const turnRoutes = Router();
 turnRoutes.get('/all', getAllTurns);
 turnRoutes.get('/:id', getTurnID);
-turnRoutes.post('/create/:idClient/:idCourt',createTurn);
+turnRoutes.post('/create',createTurn);
 turnRoutes.put('/update/:id', updateTurn);
 turnRoutes.delete('/delete/:id', deletedTurn);
 
