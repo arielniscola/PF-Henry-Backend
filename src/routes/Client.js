@@ -11,7 +11,7 @@ const {
   newClientPassword,
   forgotClientPassword,
   clientProfile,
-} = require("../controllers/client.controllers.js");
+} = require("../controllers/client.controller.js");
 const { checkAuth } = require("../middleware/checkAuth.js");
 const clientRoutes = Router();
 
