@@ -1,61 +1,175 @@
-const { Client } = require('../db');
-
+const bcrypt = require("bcrypt");
+const { Client } = require("../db");
+const { generateId } = require("../utils/generateId");
+const { generateJWT } = require("../utils/generateJWT");
 //Trae los clientes de la db
 const getAllClients = async () => {
-    const data = await Client.findAll();
-    if(!data) throw "No data"
-    return data
-} 
+  const data = await Client.findAll();
+  if (!data) throw "No data";
+  return data;
+};
 
 //Crea un cliente
 const createClient = async (data) => {
-    const { name, celNumber, direction, dni, country } = data
-    if(!name && !celNumber && !direction && !dni && !country) throw "Required data"
-    const newClient = await Client.create(data);
-    if(!newClient) throw "Client not created"
-    return newClient
-}
+  const { email, password, name, repeatPassword } = data;
+  if (password !== repeatPassword) throw "Passwords don't match";
+  if (!password && !email && !name) throw "Required data";
+  const emailRegex = new RegExp(
+    "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
+  );
+
+  if (!emailRegex.test(email)) throw "Email isn't valid";
+  const clientFromDb = await Client.findOne({ where: { email } });
+  if (clientFromDb) throw "Client is already registered";
+  try {
+    await Client.create({
+      email,
+      password,
+      name,
+      token: generateId(),
+    });
+
+    //TODO:
+    // ACA SE LE MANDA EL EMAIL DE REGISTRO CON EMAIL, NOMBRE Y TOKEN
+
+    return "User created successfully, check your email to confirm your account";
+  } catch (error) {
+    throw error;
+  }
+};
 
 //trae cliente por id
 const getClientID = async (id) => {
-    if(!id) throw "Id not found"
-    const data = await Client.findByPk(id);
-    if(!data) throw "Client not found"
-    return data
-}
+  if (!id) throw "Id not found";
+  const data = await Client.findByPk(id);
+  if (!data) throw "Client not found";
+  return data;
+};
 
 //Actualiza el cliente
-const updateClient = async (id, data) =>{
-    try {
-        const {name, celNumber, direction, dni, country} = data; 
+const updateClient = async (id, data) => {
+  try {
+    const { name, celNumber, direction, dni, country } = data;
 
-        const cliente = await Client.findByPk(id);
-        cliente.name = name;
-        cliente.celNumber = celNumber;
-        cliente.direction = direction;
-        cliente.dni = dni;
-        cliente.country = country;
+    const cliente = await Client.findByPk(id);
+    cliente.name = name;
+    cliente.celNumber = celNumber;
+    cliente.direction = direction;
+    cliente.dni = dni;
+    cliente.country = country;
 
-        await cliente.save();
-    } catch (error) {
-        res.status(400).json(error)
-    }
-}
+    await cliente.save();
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
 
 //Elimina el cliente
-const deleteClient = async(id) =>{
-    await Client.destroy({
-        where:{
-            id,
-        },
-    });
-    return Client;
-} 
+const deleteClient = async (id) => {
+  await Client.destroy({
+    where: {
+      id,
+    },
+  });
+  return Client;
+};
+
+const authenticateClient = async (data) => {
+  const { email, password } = data;
+
+  const clientOnDb = await Client.findOne({
+    where: { email },
+    raw: true,
+  });
+
+  if (!clientOnDb) throw "User doesn't exist";
+
+  if (!clientOnDb.isActive) throw "Your account is not confirmed";
+
+  const passwordMatch = await bcrypt.compare(password, clientOnDb.password);
+
+  if (passwordMatch) {
+    return { ...clientOnDb, token: generateJWT(clientOnDb.id) };
+  } else {
+    throw "Password doesn't match";
+  }
+};
+
+const confirmAccount = async (token) => {
+  const dbClientToConfirm = await Client.findOne({ where: { token } });
+  if (!dbClientToConfirm) {
+    throw "Token is not valid";
+  }
+  try {
+    dbClientToConfirm.isActive = true;
+    dbClientToConfirm.token = "";
+    await dbClientToConfirm.save();
+    return "User successfully confirmed";
+  } catch (error) {
+    throw error;
+  }
+};
+
+const forgotPassword = async (email) => {
+  const client = await Client.findOne({ where: { email } });
+  if (!client) {
+    throw "User doesn't exist";
+  }
+
+  try {
+    client.token = generateId();
+    await client.save();
+
+    //TODO:
+    // ACA LE MANDAS UN EMAIL DE QUE SE OLVIDO PASSWORD. CON EMAIL, NAME Y TOKEN,
+
+    return "We sent you an email with instructions";
+  } catch (error) {
+    throw error;
+  }
+};
+
+const checkToken = async (token) => {
+  const dbClientFromToken = await Client.findOne({ where: { token } });
+  if (dbClientFromToken) {
+    return "Token valid and user exist";
+  } else {
+    throw "Token is not valid";
+  }
+};
+
+const newPassword = async (token, password) => {
+  const dbClientFromToken = await Client.findOne({ where: { token } });
+
+  if (dbClientFromToken) {
+    dbClientFromToken.pasword = password;
+    dbClientFromToken.token = "";
+
+    try {
+      await dbClientFromToken.save();
+      return "Password successfully modified";
+    } catch (error) {
+      throw error;
+    }
+  } else {
+    throw "Token is not valid";
+  }
+};
+
+const profile = async (user) => {
+  return user;
+};
 
 module.exports = {
-    getAllClients,
-    createClient,
-    getClientID,
-    updateClient,
-    deleteClient
-}
+  getAllClients,
+  createClient,
+  getClientID,
+  updateClient,
+  deleteClient,
+  authenticateClient,
+  confirmAccount,
+  forgotPassword,
+  checkToken,
+  newPassword,
+};
+
