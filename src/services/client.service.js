@@ -104,7 +104,7 @@ const authenticateClient = async (data) => {
 const confirmAccount = async (token) => {
   const dbClientToConfirm = await Client.findOne({ where: { token } });
   if (!dbClientToConfirm) {
-    throw "Token is not valid";
+    throw "Token is not valid or have been used already";
   }
   try {
     dbClientToConfirm.isActive = true;
