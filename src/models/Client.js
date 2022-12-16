@@ -27,7 +27,8 @@ module.exports = (sequelize) => {
         defaultValue: "",
       },
       dni: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
+        defaultValue: "",
       },
       country: {
         type: DataTypes.STRING,
@@ -35,6 +36,7 @@ module.exports = (sequelize) => {
       },
       profile_img: {
         type: DataTypes.STRING,
+        defaultValue: "",
       },
       password: {
         type: DataTypes.STRING,
