@@ -13,8 +13,8 @@ const getAllClients = async (req, res) => {
 //Crea el cliente
 const createClient = async (req, res) => {
   try {
-    await clientService.createClient(req.body);
-    res.status(201).json({ msg: "Client created successfully" });
+    const response = await clientService.createClient(req.body);
+    res.status(201).json({ msg: response});
   } catch (error) {
     res.status(400).json(error);
   }
