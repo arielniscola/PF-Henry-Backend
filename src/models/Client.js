@@ -48,10 +48,10 @@ module.exports = (sequelize) => {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },
-      role: {
-        type: DataTypes.STRING,
-        defaultValue: "user",
-      },
+      isOwner: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      }
     },
     {
       timestamps: false,
