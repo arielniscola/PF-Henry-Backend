@@ -1,13 +1,14 @@
 const bcrypt = require("bcrypt");
-const { Client } = require("../db");
 const { generateId } = require("../utils/generateId");
 const { generateJWT } = require("../utils/generateJWT");
+const { Client, Favorites } = require('../db');
+
 //Trae los clientes de la db
 const getAllClients = async () => {
-  const data = await Client.findAll();
-  if (!data) throw "No data";
-  return data;
-};
+    const data = await Client.findAll({include:{model: Favorites}});
+    if(!data) throw "No data"
+    return data
+} 
 
 //Crea un cliente
 const createClient = async (data) => {
@@ -40,11 +41,16 @@ const createClient = async (data) => {
 
 //trae cliente por id
 const getClientID = async (id) => {
-  if (!id) throw "Id not found";
-  const data = await Client.findByPk(id);
-  if (!data) throw "Client not found";
-  return data;
-};
+    if(!id) throw "Id not found"
+    const data = await Client.findByPk(id,{
+        include: [
+            {model: Favorites,},
+        ],
+    });
+    console.log(data);
+    if(!data) throw "Client not found"
+    return data
+}
 
 //Actualiza el cliente
 const updateClient = async (id, data) => {
@@ -156,10 +162,6 @@ const newPassword = async (token, password) => {
   }
 };
 
-const profile = async (user) => {
-  return user;
-};
-
 module.exports = {
   getAllClients,
   createClient,
@@ -172,4 +174,3 @@ module.exports = {
   checkToken,
   newPassword,
 };
-
