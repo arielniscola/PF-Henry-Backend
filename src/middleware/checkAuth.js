@@ -9,7 +9,7 @@ const checkAuth = async (req, res, next) => {
   ) {
     try {
       token = req.headers.authorization.split(" ")[1];
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const decoded = jwt.verify(token, process.env.JWT_SECRET || "kljlksdjf2oi3jlkj32");
       req.user = await Client.findOne({
         where: { id: decoded.id },
         attributes: {
