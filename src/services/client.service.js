@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const { generateId } = require("../utils/generateId");
 const { generateJWT } = require("../utils/generateJWT");
 const { Client, Favorites } = require('../db');
+const { sendMailValidation, sendMailPasswordRestore } = require("../libs/notifications");
 
 //Trae los clientes de la db
 const getAllClients = async () => {
@@ -12,7 +13,8 @@ const getAllClients = async () => {
 
 //Crea un cliente
 const createClient = async (data) => {
-  const { email, password, name, repeatPassword } = data;
+  const { email, password, name, repeatPassword, direction, dni, country, profile_img } = data;
+  if(!name) throw "Required data missing"
   if (password !== repeatPassword) throw "Passwords don't match";
   if (!password && !email && !name) throw "Required data";
   const emailRegex = new RegExp(
@@ -22,16 +24,35 @@ const createClient = async (data) => {
   if (!emailRegex.test(email)) throw "Email isn't valid";
   const clientFromDb = await Client.findOne({ where: { email } });
   if (clientFromDb) throw "Client is already registered";
+  let imageUpload = null;
+  if(profile_img){
+       imageUpload = await cloudinary.uploader.upload(profile_img, {
+          folder: "henry",
+          upload_preset: "ml_default"
+       
+      })
+     if(!imageUpload) throw "Error upload image"
+     
+  }
+
   try {
+    const token = generateId();
+
     await Client.create({
       email,
       password,
       name,
-      token: generateId(),
+      token,
+      direction,
+      dni,
+      country,
+      profile_img: imageUpload.secure_url || null
     });
 
     //TODO:
     // ACA SE LE MANDA EL EMAIL DE REGISTRO CON EMAIL, NOMBRE Y TOKEN
+    const notificationSend = sendMailValidation(name, email, token)
+    if(!notificationSend) throw "Notification not send"
 
     return "User created successfully, check your email to confirm your account";
   } catch (error) {
@@ -128,7 +149,8 @@ const forgotPassword = async (email) => {
 
     //TODO:
     // ACA LE MANDAS UN EMAIL DE QUE SE OLVIDO PASSWORD. CON EMAIL, NAME Y TOKEN,
-
+    const notificationSend = sendMailPasswordRestore(client.name, email, token);
+    if(!notificationSend) throw "Error send mail"
     return "We sent you an email with instructions";
   } catch (error) {
     throw error;
@@ -161,6 +183,7 @@ const newPassword = async (token, password) => {
     throw "Token is not valid";
   }
 };
+
 
 module.exports = {
   getAllClients,
