@@ -66,7 +66,7 @@ const updateClient = async (id, data) => {
 
     await cliente.save();
   } catch (error) {
-    res.status(400).json(error);
+    throw error
   }
 };
 
