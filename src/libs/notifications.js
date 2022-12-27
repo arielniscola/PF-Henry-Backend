@@ -11,15 +11,15 @@ const sendNotificationWithMail = async(req, res) => {
     }
 }
 
-const sendMailValidation = async(user) => {
+const sendMailValidation = async(userName, mail, token) => {
     try {
         const subject = "User account validation"
         const htmlMessage = 
         `<h2>Validate account</h2>
         <p>To validate your user account please enter the following link</p>
-        <a href="/">Click here</a>        
+        <a href="http://localhost:3000/confirm-account/${token}">Click here</a>        
         `
-        const result = await sendNotificationMail(subject, "System Admin" , user.mail, null, htmlMessage);
+        const result = await sendNotificationMail(subject, "System Admin" , mail, null, htmlMessage);
         
         return result
     } catch (error) {
@@ -60,9 +60,26 @@ const sendMailBannedComplejo = async(userMail) => {
     }
 }
 
+const sendMailPasswordRestore = async(userName, mail, token) => {
+    try {
+        const subject = "User account validation"
+        const htmlMessage = 
+        `<h2>Restore password ${userName}</h2>
+        <p>To reset password please enter the following link</p>
+        <a href="http://localhost:3000/forgot-password/${token}">Click here</a>        
+        `
+        const result = await sendNotificationMail(subject, "System Admin" , mail, null, htmlMessage);
+        
+        return result
+    } catch (error) {
+        return error
+    }
+}
+
 module.exports = {
     sendNotificationWithMail,
     sendMailValidation,
     sendMailBannedUser,
-    sendMailBannedComplejo
+    sendMailBannedComplejo,
+    sendMailPasswordRestore
 }
