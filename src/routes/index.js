@@ -13,6 +13,7 @@ const config = require("../routes/Config");
 const favorites = require("../routes/Favorites");
 //const event = require("../routes/Event.js");
 const servicescomplejo = require("../routes/ServicesComplejo.js")
+const  review = require("./Review");
 
 //mercadopago
 const PaymentController = require ('../controllers/payments.controller');
@@ -40,5 +41,7 @@ router.use("/notification", notification);
 router.use("/servicescomplejo", servicescomplejo)
 router.use("/config", config)
 router.use("/favorites", favorites)
+router.use("/reviews", review);
+
 
 module.exports = router;
