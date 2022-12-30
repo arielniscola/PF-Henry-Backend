@@ -21,6 +21,23 @@ module.exports = (sequelize) => {
     },
     addres:{
         type: DataTypes.STRING,
+    },
+    lat: {
+        type: DataTypes.FLOAT
+    },
+    lng:{
+        type: DataTypes.FLOAT
+    },
+    website:{
+        type: DataTypes.STRING
+    },
+    deleted:{
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
+    active:{
+        type: DataTypes.BOOLEAN,
+        defaultValue: true
     }
     },{
         timestamps: false

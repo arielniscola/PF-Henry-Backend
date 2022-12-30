@@ -2,11 +2,12 @@ const bcrypt = require("bcrypt");
 const { generateId } = require("../utils/generateId");
 const { generateJWT } = require("../utils/generateJWT");
 const { Client, Favorites } = require('../db');
-const { sendMailValidation, sendMailPasswordRestore } = require("../libs/notifications");
+const { sendMailValidation, sendMailPasswordRestore, sendMailBannedUser } = require("../libs/notifications");
+const Complejo = require("../db");
 
 //Trae los clientes de la db
 const getAllClients = async () => {
-    const data = await Client.findAll({include:{model: Favorites}});
+    const data = await Client.findAll({include:{model: [Favorites, Complejo]}});
     if(!data) throw "No data"
     return data
 } 
@@ -25,13 +26,13 @@ const createClient = async (data) => {
   const clientFromDb = await Client.findOne({ where: { email } });
   if (clientFromDb) throw "Client is already registered";
   let imageUpload = null;
-  if(profile_img){
-       imageUpload = await cloudinary.uploader.upload(profile_img, {
-          folder: "henry",
+   if(profile_img){
+        imageUpload = await cloudinary.uploader.upload(profile_img, {
+           folder: "henry",
           upload_preset: "ml_default"
        
-      })
-     if(!imageUpload) throw "Error upload image"
+       })
+      if(!imageUpload) throw "Error upload image"
      
   }
 
@@ -42,16 +43,16 @@ const createClient = async (data) => {
       email,
       password,
       name,
-      token,
-      direction,
-      dni,
-      country,
-      profile_img: imageUpload.secure_url || null
+      token
+      //direction,
+      //dni,
+      //country,
+     // profile_img: imageUpload.secure_url || null
     });
 
     //TODO:
     // ACA SE LE MANDA EL EMAIL DE REGISTRO CON EMAIL, NOMBRE Y TOKEN
-    const notificationSend = sendMailValidation(name, email, token)
+    const notificationSend = await sendMailValidation(name, email, token)
     if(!notificationSend) throw "Notification not send"
 
     return "User created successfully, check your email to confirm your account";
@@ -93,12 +94,16 @@ const updateClient = async (id, data) => {
 
 //Elimina el cliente
 const deleteClient = async (id) => {
-  await Client.destroy({
-    where: {
-      id,
-    },
-  });
-  return Client;
+  const client = await Client.findByPk(id);
+  client.deleted = true;
+
+  const result = await client.save();
+
+  if(result) {
+    const notifications = await sendMailBannedUser(client.email)
+    if(!notifications) throw "Notification not send - Error"
+  }
+  return result
 };
 
 const authenticateClient = async (data) => {

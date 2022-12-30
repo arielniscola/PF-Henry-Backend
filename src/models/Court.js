@@ -20,6 +20,10 @@ module.exports = (sequelize) => {
         },
         type_Court: {
             type: DataTypes.STRING
+        },
+        active: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: true
         }
     }
     ,{
