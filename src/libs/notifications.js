@@ -15,7 +15,7 @@ const sendMailValidation = async(userName, mail, token) => {
     try {
         const subject = "User account validation"
         const htmlMessage = 
-        `<h2>Validate account</h2>
+        `<h2>Validate account para usuario ${userName}</h2>
         <p>To validate your user account please enter the following link</p>
         <a href="http://localhost:3000/confirm-account/${token}">Click here</a>        
         `

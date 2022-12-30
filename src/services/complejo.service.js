@@ -1,4 +1,5 @@
 const { Complejo } = require('../db');
+const { sendMailBannedComplejo } = require('../libs/notifications');
 const cloudinary = require("../utils/cluodinary");
 
 const getAllComplejos = async () => {
@@ -59,12 +60,11 @@ const updateComplejo = async (id, data) =>{
 }
 
 const deleteComplejo = async(id) =>{
-    await Complejo.destroy({
-        where:{
-            id,
-        },
-    });
-    return Complejo;
+   const complejo = await Complejo.findByPk(id);
+   complejo.deleted = true;
+   const result = complejo.save();
+
+   return result
 } 
 module.exports = {
     createComplejo,

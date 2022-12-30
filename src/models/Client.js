@@ -26,6 +26,9 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         defaultValue: "",
       },
+      celNumber:{
+        type: DataTypes.STRING,
+      },
       dni: {
         type: DataTypes.STRING,
         defaultValue: "",
@@ -52,6 +55,10 @@ module.exports = (sequelize) => {
       isOwner: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
+      },
+      rol:{
+        type: DataTypes.STRING,
+        defaultValue: "client"
       },
       deleted: {
         type: DataTypes.BOOLEAN,
