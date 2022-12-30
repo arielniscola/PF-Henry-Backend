@@ -43,8 +43,7 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       token: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        type: DataTypes.STRING
       },
       isActive: {
         type: DataTypes.BOOLEAN,
@@ -53,6 +52,10 @@ module.exports = (sequelize) => {
       isOwner: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
+      },
+      deleted: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
       }
     },
     {
