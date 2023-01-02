@@ -16,7 +16,7 @@ const createComplejo = async (req, res) => {
         const data = await complejoService.createComplejo(req.body);
         res.status(201).json(data);
     } catch (error) {
-        res.status(400).json(error);
+        res.status(400).json({message: error.message});
     }
 }
 

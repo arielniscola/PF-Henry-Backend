@@ -1,4 +1,4 @@
-const { Favorites } = require('../db');
+const { Favorites, Client } = require('../db');
 
 //Trae los fav de la db
 const getAllFavorites = async () => {
@@ -8,10 +8,12 @@ const getAllFavorites = async () => {
 } 
 
 //Crea un fav
-const createFavorite = async (data) => {
-    const newFavorite = await Favorites.create(data);
+const createFavorite = async ({idUser, favorites = []}) => {
+    const client = await Client.findByPk(idUser);
+    if(!client)  throw "User not found"
+    const newFavorite = await Favorites.create({favorites, clientId: idUser});
     if(!newFavorite) throw "Favorite not created"
-    console.log(newFavorite);
+    
     return newFavorite
 }
 

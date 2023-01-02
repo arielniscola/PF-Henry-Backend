@@ -4,6 +4,7 @@ const favoriteService = require('../services/favorites.service');
 const getAllFavorites = async (req, res) => {
     try {
         const data = await favoriteService.getAllFavorites();
+
         res.status(200).json(data);
     } catch (error) {
         res.status(404).json({message : error.message});
@@ -16,7 +17,8 @@ const createFavorite = async (req, res) => {
         const data = await favoriteService.createFavorite(req.body);
         res.status(201).json(data);
     } catch (error) {
-        res.status(400).json(error);
+        console.log(error);
+        res.status(400).json({message : error.message});
     }
 }
 

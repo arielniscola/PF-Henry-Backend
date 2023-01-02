@@ -22,6 +22,9 @@ module.exports = (sequelize) => {
     addres:{
         type: DataTypes.STRING,
     },
+    city:{
+        type: DataTypes.STRING
+    },
     lat: {
         type: DataTypes.FLOAT
     },

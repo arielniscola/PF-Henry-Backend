@@ -11,7 +11,6 @@ const {
 const favoriteRoutes = Router();
 
 
-
 favoriteRoutes.get("/all", getAllFavorites);
 favoriteRoutes.post("/create", createFavorite);
 favoriteRoutes.put("/update/:id", updateFavorito);
