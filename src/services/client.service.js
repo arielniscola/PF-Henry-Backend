@@ -1,9 +1,9 @@
 const bcrypt = require("bcrypt");
 const { generateId } = require("../utils/generateId");
 const { generateJWT } = require("../utils/generateJWT");
-const { Client, Favorites } = require('../db');
+const { Client, Favorites, Complejo } = require('../db');
 const { sendMailValidation, sendMailPasswordRestore, sendMailBannedUser } = require("../libs/notifications");
-const Complejo = require("../db");
+
 
 //Trae los clientes de la db
 const getAllClients = async () => {
@@ -66,7 +66,7 @@ const getClientID = async (id) => {
     if(!id) throw "Id not found"
     const data = await Client.findByPk(id,{
         include: [
-            {model: Favorites,},
+            Favorites, Complejo
         ],
     });
     console.log(data);

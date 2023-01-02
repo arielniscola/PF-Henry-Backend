@@ -3,10 +3,10 @@ const { Sequelize } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
 const {
-  DB_USER, DB_PASSWORD, DB_HOST,
+  DB_USER, DB_PASS, DB_HOST,
 } = process.env;
 
-const sequelize = new Sequelize(`postgresql://postgres:${DB_PASSWORD}@containers-us-west-164.railway.app:7754/railway`, {
+const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASS}@${DB_HOST}/courtreservations`, {
   logging: false, // set to console.log to see the raw SQL queries
   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
 });
@@ -31,7 +31,7 @@ sequelize.models = Object.fromEntries(capsEntries);
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
 
-const { Client, Complejo, Config, Court, Event, Turno } = sequelize.models;
+const { Client, Complejo, Config, Court, Event, Turno, TypeCourt, ServicesComplejo, Reviews, Favorites } = sequelize.models;
 
 // Complejo.belongsToMany(Event, {through: 'Complejo_Event',  timestamps: false });
 Complejo.hasMany(Event,{
@@ -74,6 +74,10 @@ Turno.belongsTo(Court,{
   targetId: 'id'
 });
 // Turno.belongsToMany(Client, {through: 'Turno_Client',  timestamps: false });
+Client.hasMany(Turno, {
+  foreignKey: 'clientId',
+  targetId:'id'
+});
 Turno.belongsTo(Client,{
   foreignKey: 'turnoId',
   targetId: 'id'
@@ -83,11 +87,38 @@ Client.hasMany(Turno,{
   foreignKey: 'clientId',
   sourceKey: 'id'
 });
+Client.hasOne(Complejo);
+
+Client.hasMany(Reviews, {
+  foreignKey: 'clientId',
+  sourceKey: 'id'
+});
+
+Reviews.belongsTo(Client, {
+  foreignKey: 'reviewsId',
+  targetId: 'id'
+})
+
+Client.hasOne(Favorites, {
+  foreignKey: 'clientId',
+  sourceKey: 'id'
+});
+
+
+Complejo.belongsToMany(ServicesComplejo, {through: 'complejoServices', foreignKey:'complejoId'})
+ServicesComplejo.belongsToMany(Complejo, { through: 'complejoServices', foreignKey:' servicesComplejoId'})
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
 
-
+TypeCourt.hasMany(Court, {
+  foreignKey: 'typeCourtId',
+  sourceKey:'id'
+});
+Court.belongsTo(TypeCourt, {
+  foreignKey: 'courtId',
+  targetKey: 'id'
+});
 
 
 
