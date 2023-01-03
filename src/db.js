@@ -87,7 +87,15 @@ Client.hasMany(Turno,{
   foreignKey: 'clientId',
   sourceKey: 'id'
 });
-Client.hasOne(Complejo);
+
+Client.hasMany(Complejo,{
+  foreignKey: 'clientId',
+  sourceKey: 'id'
+});
+Complejo.belongsTo(Client,{
+  foreignKey: 'complejoId',
+  targetId: 'id'
+})
 
 Client.hasMany(Reviews, {
   foreignKey: 'clientId',
@@ -103,6 +111,15 @@ Client.hasOne(Favorites, {
   foreignKey: 'clientId',
   sourceKey: 'id'
 });
+
+Complejo.hasMany(Court,{
+  foreignKey: 'complejoId',
+  targetId: 'id'
+});
+Court.belongsTo(Complejo,{
+  foreignKey: 'courtId',
+  targetId: 'id'
+})
 
 
 Complejo.belongsToMany(ServicesComplejo, {through: 'complejoServices', foreignKey:'complejoId'})
