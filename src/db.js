@@ -95,7 +95,7 @@ Client.hasMany(Complejo,{
 Complejo.belongsTo(Client,{
   foreignKey: 'complejoId',
   targetId: 'id'
-})
+});
 
 Client.hasMany(Reviews, {
   foreignKey: 'clientId',
@@ -119,7 +119,7 @@ Complejo.hasMany(Court,{
 Court.belongsTo(Complejo,{
   foreignKey: 'courtId',
   targetId: 'id'
-})
+});
 
 
 Complejo.belongsToMany(ServicesComplejo, {through: 'complejoServices', foreignKey:'complejoId'})
