@@ -52,6 +52,10 @@ module.exports = (sequelize) => {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },
+      favorites:{
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        defaultValue: []
+      },
       isOwner: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,

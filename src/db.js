@@ -107,10 +107,6 @@ Reviews.belongsTo(Client, {
   targetId: 'id'
 })
 
-Client.hasOne(Favorites, {
-  foreignKey: 'clientId',
-  sourceKey: 'id'
-});
 
 Complejo.hasMany(Court,{
   foreignKey: 'complejoId',
@@ -136,7 +132,6 @@ Court.belongsTo(TypeCourt, {
   foreignKey: 'courtId',
   targetKey: 'id'
 });
-
 
 
 
