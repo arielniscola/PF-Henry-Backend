@@ -17,6 +17,10 @@ module.exports = (sequelize) => {
     time_start:{
         type: DataTypes.TIME,
         allowNull: false,
+    },
+    state: {
+        type: DataTypes.STRING,
+        defaultValue: "reserved"
     }
     },{
         timestamps: false

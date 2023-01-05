@@ -25,16 +25,7 @@ const createClient = async (data) => {
   if (!emailRegex.test(email)) throw "Email isn't valid";
   const clientFromDb = await Client.findOne({ where: { email } });
   if (clientFromDb) throw "Client is already registered";
-  let imageUpload = null;
-   if(profile_img){
-        imageUpload = await cloudinary.uploader.upload(profile_img, {
-           folder: "henry",
-          upload_preset: "ml_default"
-       
-       })
-      if(!imageUpload) throw "Error upload image"
-     
-  }
+  
 
   try {
     const token = generateId();
@@ -77,7 +68,18 @@ const getClientID = async (id) => {
 //Actualiza el cliente
 const updateClient = async (id, data) => {
   try {
-    const { name, celNumber, direction, dni, country, favrites } = data;
+    const { name, celNumber, direction, dni, country, favorites, rol, profile_img } = data;
+
+   let imageUpload = null;
+   if(profile_img){
+        imageUpload = await cloudinary.uploader.upload(profile_img, {
+           folder: "henry",
+          upload_preset: "ml_default"
+       
+       })
+      if(!imageUpload) throw "Error upload image"
+     
+  }
 
     const cliente = await Client.findByPk(id);
     cliente.name = name;
@@ -86,6 +88,8 @@ const updateClient = async (id, data) => {
     cliente.dni = dni;
     cliente.country = country;
     cliente.favorites = favorites;
+    cliente.rol = rol;
+    cliente.profile_img = imageUpload.secure_url || null;
 
     await cliente.save();
   } catch (error) {
