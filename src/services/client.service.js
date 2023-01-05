@@ -77,7 +77,7 @@ const getClientID = async (id) => {
 //Actualiza el cliente
 const updateClient = async (id, data) => {
   try {
-    const { name, celNumber, direction, dni, country, favarites } = data;
+    const { name, celNumber, direction, dni, country, favrites } = data;
 
     const cliente = await Client.findByPk(id);
     cliente.name = name;
@@ -85,7 +85,7 @@ const updateClient = async (id, data) => {
     cliente.direction = direction;
     cliente.dni = dni;
     cliente.country = country;
-    cliente.favarites = favarites;
+    cliente.favorites = favorites;
 
     await cliente.save();
   } catch (error) {
