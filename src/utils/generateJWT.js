@@ -6,4 +6,8 @@ const generateJWT = (id) => {
   });
 };
 
-module.exports = { generateJWT };
+const decodeJWT = (token) => {
+  return jwt.decode(token);
+};
+
+module.exports = { generateJWT, decodeJWT };
