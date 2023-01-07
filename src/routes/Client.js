@@ -11,6 +11,7 @@ const {
   newClientPassword,
   forgotClientPassword,
   clientProfile,
+  googleLogin,
 } = require("../controllers/client.controller.js");
 const { checkAuth } = require("../middleware/checkAuth.js");
 const clientRoutes = Router();
@@ -24,6 +25,7 @@ clientRoutes.put("/update/:id", updateClient);
 clientRoutes.delete("/delete/:id", deleteClient);
 
 clientRoutes.post("/login", authenticateClient);
+clientRoutes.post("/googleAuth", googleLogin);
 
 clientRoutes.post("/forgot-password", forgotClientPassword);
 
@@ -37,3 +39,4 @@ clientRoutes
 clientRoutes.get("/:id", getClientID);
 
 module.exports = clientRoutes;
+
