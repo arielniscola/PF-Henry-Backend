@@ -113,6 +113,16 @@ const clientProfile = (req, res) => {
   }
 };
 
+const googleLogin = async (req, res) => {
+  const { credential } = req.body;
+  try {
+    const client = await clientService.googleLogin(credential);
+    res.status(200).json(client);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
 module.exports = {
   getAllClients,
   createClient,
@@ -125,4 +135,6 @@ module.exports = {
   newClientPassword,
   forgotClientPassword,
   clientProfile,
+  googleLogin,
 };
+

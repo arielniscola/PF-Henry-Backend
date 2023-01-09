@@ -1,16 +1,16 @@
 const bcrypt = require("bcrypt");
 const { generateId } = require("../utils/generateId");
-const { generateJWT } = require("../utils/generateJWT");
+const { generateJWT, decodeJWT } = require("../utils/generateJWT");
 const { Client, Complejo } = require('../db');
 const { sendMailValidation, sendMailPasswordRestore, sendMailBannedUser } = require("../libs/notifications");
 
 
 //Trae los clientes de la db
 const getAllClients = async () => {
-    const data = await Client.findAll({include:{model: [Complejo]}});
+    const data = await Client.findAll({ include: { model: Complejo } });
     if(!data) throw "No data"
     return data
-} 
+}
 
 //Crea un cliente
 const createClient = async (data) => {
@@ -25,7 +25,7 @@ const createClient = async (data) => {
   if (!emailRegex.test(email)) throw "Email isn't valid";
   const clientFromDb = await Client.findOne({ where: { email } });
   if (clientFromDb) throw "Client is already registered";
-  
+
 
   try {
     const token = generateId();
@@ -38,7 +38,7 @@ const createClient = async (data) => {
       //direction,
       //dni,
       //country,
-     // profile_img: imageUpload.secure_url || null
+      // profile_img: imageUpload.secure_url || null
     });
 
     //TODO:
@@ -54,15 +54,15 @@ const createClient = async (data) => {
 
 //trae cliente por id
 const getClientID = async (id) => {
-    if(!id) throw "Id not found"
-    const data = await Client.findByPk(id,{
-        include: [
-           Complejo
-        ],
-    });
-    console.log(data);
-    if(!data) throw "Client not found"
-    return data
+  if(!id) throw "Id not found"
+  const data = await Client.findByPk(id,{
+    include: [
+      Complejo
+    ],
+  });
+  console.log(data);
+  if(!data) throw "Client not found"
+  return data
 }
 
 //Actualiza el cliente
@@ -70,16 +70,16 @@ const updateClient = async (id, data) => {
   try {
     const { name, celNumber, direction, dni, country, favorites, rol, profile_img } = data;
 
-   let imageUpload = null;
-   if(profile_img){
+    let imageUpload = null;
+    if(profile_img){
         imageUpload = await cloudinary.uploader.upload(profile_img, {
            folder: "henry",
           upload_preset: "ml_default"
        
        })
-      if(!imageUpload) throw "Error upload image"
+        if(!imageUpload) throw "Error upload image"
      
-  }
+    }
 
     const cliente = await Client.findByPk(id);
     cliente.name = name;
@@ -194,6 +194,30 @@ const newPassword = async (token, password) => {
   }
 };
 
+const googleLogin = async (googleJWT) => {
+  const { name, email, picture: profile_img, jti } = await decodeJWT(googleJWT);
+  try {
+    const existingUser = await Client.findOne({ where: { email }, raw: true });
+    if (existingUser) {
+      return { ...existingUser, token: generateJWT(existingUser.id) };
+    } else {
+      let rol;
+      email === "pfhenry06@gmail.com" ? (rol = "admin") : (rol = "client");
+      const newUser = await Client.create({
+        name,
+        email,
+        profile_img,
+        password: jti,
+        rol,
+        isActive: true,
+      });
+      const client = JSON.parse(JSON.stringify(newUser));
+      return { ...client, token: generateJWT(client.id) };
+    }
+  } catch (error) {
+    throw error;
+  }
+};
 
 module.exports = {
   getAllClients,
@@ -206,4 +230,6 @@ module.exports = {
   forgotPassword,
   checkToken,
   newPassword,
+  googleLogin,
 };
+

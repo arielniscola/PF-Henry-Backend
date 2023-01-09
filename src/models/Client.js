@@ -26,7 +26,7 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         defaultValue: "",
       },
-      celNumber:{
+      celNumber: {
         type: DataTypes.STRING,
       },
       dni: {
@@ -46,28 +46,29 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       token: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: "",
       },
       isActive: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },
-      favorites:{
+      favorites: {
         type: DataTypes.ARRAY(DataTypes.STRING),
-        defaultValue: []
+        defaultValue: [],
       },
       isOwner: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },
-      rol:{
+      rol: {
         type: DataTypes.STRING,
-        defaultValue: "client"
+        defaultValue: "client",
       },
       deleted: {
         type: DataTypes.BOOLEAN,
-        defaultValue: false
-      }
+        defaultValue: false,
+      },
     },
     {
       timestamps: false,
