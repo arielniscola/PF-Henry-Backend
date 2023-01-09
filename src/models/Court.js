@@ -21,6 +21,12 @@ module.exports = (sequelize) => {
         type_Court: {
             type: DataTypes.STRING
         },
+        price:{
+            type: DataTypes.FLOAT
+        },
+        duration_turn:{
+            type: DataTypes.FLOAT
+        },
         active: {
             type: DataTypes.BOOLEAN,
             defaultValue: true
