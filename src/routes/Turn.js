@@ -4,7 +4,9 @@ const {
     deletedTurn,
     createTurn,
     getTurnID,
-    updateTurn
+    updateTurn,
+    getTurnsCourtDate,
+    getTurnsComplejo
 } = require("../controllers/turn.controller");
 
 const turnRoutes = Router();
@@ -13,5 +15,7 @@ turnRoutes.get('/:id', getTurnID);
 turnRoutes.post('/create',createTurn);
 turnRoutes.put('/update/:id', updateTurn);
 turnRoutes.delete('/delete/:id', deletedTurn);
+turnRoutes.get('/complejo-turns/:id', getTurnsComplejo);
+turnRoutes.get('/complejo-turno-date/:date/:id', getTurnsCourtDate);
 
 module.exports = turnRoutes;

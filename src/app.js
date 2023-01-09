@@ -4,11 +4,13 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const routes = require('./routes/index.js');
 const dotenv = require('dotenv');
+const mercadopago = require('mercadopago');
 
 
 require('./db.js');
 
 const server = express();
+
 
 dotenv.config();
 
@@ -26,7 +28,42 @@ server.use((req, res, next) => {
   next();
 });
 
+//mercadopago
+mercadopago.configure({access_token: process.env.ACCESS_TOKEN})
+server.post('/payment', (req, res)=>{
+  const prod = req.body;
+  let preference = {
+    items: [
+    {
+        id: prod.id,
+        title: prod.name,
+        currency_id: "ARS",
+        picture_url: prod.image,
+        description: prod.event,
+        category_id: 'art',
+        quantity: 1,
+        unit_price: prod.price,
+    }],
+    back_urls: {
+    failure: "/failure",
+    pending: "/pending",
+    success: "http://localhost:3000/contact-us"
+    },
+    auto_return: 'approved',
+    binary_mode: true,
+}
+  mercadopago.preferences.create(preference).then((response)=> res.status(200).send({response}))
+});
+
+
+
+
+
+
+
 server.use('/', routes);
+
+
 
 
 

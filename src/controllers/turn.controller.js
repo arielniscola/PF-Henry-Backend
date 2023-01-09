@@ -56,7 +56,14 @@ const updateTurn = async (req, res) => {
         res.status(400).json(error)
     }
 }
-
+const getTurnsCourtDate = async(req, res) => {
+    try {
+        const turns = await turnService.getTurnsCourtDate(req.params.date, req.params.id)
+        res.status(200).json(turns)
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+}
 
 module.exports = {
     getAllTurns,
@@ -64,5 +71,6 @@ module.exports = {
     deletedTurn,
     getTurnsComplejo,
     getTurnID,
-    updateTurn
+    updateTurn,
+    getTurnsCourtDate
 }

@@ -19,7 +19,7 @@ module.exports = (sequelize) => {
     logo:{
         type: DataTypes.STRING,
     },
-    addres:{
+    address:{
         type: DataTypes.STRING,
     },
     city:{
