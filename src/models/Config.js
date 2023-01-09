@@ -20,14 +20,6 @@ module.exports = (sequelize) => {
         // },
         allowNull: false,
     },
-    duration_turno:{
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
-    price_turno:{
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    }
     },{
         timestamps: false
     });

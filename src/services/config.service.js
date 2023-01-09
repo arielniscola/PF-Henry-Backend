@@ -25,12 +25,11 @@ const getConfigID = async (id) => {
 //Actualiza el config
 const updateConfig = async (id, data) =>{
     try {
-        const {open_days, duration_turno, price_turno} = data; 
+        const {open_days} = data; 
 
         const config = await Config.findByPk(id);
         config.open_days = open_days;
-        config.duration_turno = duration_turno;
-        config.price_turno = price_turno;
+
 
         await config.save();
     } catch (error) {

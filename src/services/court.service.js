@@ -9,7 +9,7 @@ const getAllCourt = async () => {
 };
 
 const createCourt = async (data) => {
-  const { numberCourt, description, typeCourt, idComplejo } = data;
+  const { numberCourt, description, typeCourtId, idComplejo } = data;
   const complex = await Complejo.findByPk(idComplejo);
   if(!complex) throw "Complex not found"
   if (!numberCourt) throw "Required data missing";
@@ -29,13 +29,14 @@ const getCourtID = async (id) => {
 
 const updateCourt = async (id, data) => {
   try {
-    const {numberCourt, description, typeCourt} = data; 
+    const {numberCourt, description, typeCourt, price, duration_turn} = data; 
 
     const court = await Court.findByPk(id);
     court.numberCourt = numberCourt;
     court.description = description;
     court.typeCourt = typeCourt;
-
+    court.price = price;
+    court.duration_turn = duration_turn;
     await court.save();
 } catch (error) {
     res.status(400).json(error)
