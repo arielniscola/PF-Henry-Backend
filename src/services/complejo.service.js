@@ -1,9 +1,15 @@
-const { Complejo, Client } = require('../db');
+const { Complejo, Client, Config, Reviews, Court} = require('../db');
 const { sendMailBannedComplejo } = require('../libs/notifications');
 const cloudinary = require("../utils/cluodinary");
 
 const getAllComplejos = async () => {
-    const data = await Complejo.findAll();
+    const data = await Complejo.findAll({
+        where: {
+            deleted: false,
+            active: true
+        },
+        include: [{model: Court}]
+    });
 
     if(!data) throw "Data not found"
 
@@ -12,29 +18,29 @@ const getAllComplejos = async () => {
 
 
 const createComplejo = async (data) => {
-    const { name, cuit, logo, addres, lat, lng, city, idUser } = data
+    const { name, cuit, logo, address, lat, lng, city, idUser } = data
      
     const client = await Client.findByPk(idUser);
     if(!client) throw "User not exist";
     if(client.idComplejo) throw "User have complex created"
 
-    // const imageUpload = await cloudinary.uploader.upload(logo, {
-    //       folder: "henry",
-    //       upload_preset: "ml_default"
+    const imageUpload = await cloudinary.uploader.upload(logo, {
+           folder: "henry",
+        upload_preset: "ml_default"
        
-    //   })
-    //  if(!imageUpload) throw "Error upload image"
+       })
+     if(!imageUpload) throw "Error upload image"
      if(!name) throw "Required data missing"
     
     const newComplejo = await Complejo.create({
         name,
         cuit,
-        addres,
+        address,
         lat,
         lng,
         city,
-        clientId: idUser
-        // logo: imageUpload.secure_url || null
+        clientId: idUser,
+        logo: imageUpload.secure_url || null
     });
 
     if(!newComplejo) throw "Complex no created"
@@ -44,7 +50,9 @@ const createComplejo = async (data) => {
 
 const getComplejoID = async (id) => {
     if(!id) throw "no ID especified"
-    const data = await Complejo.findByPk(id);
+    const data = await Complejo.findByPk(id,{
+        include: [{model: Reviews, include:[Client]}, {model: Config}, {model: Court}]
+    });
 
     if(!data) throw "No found"
 
@@ -53,13 +61,18 @@ const getComplejoID = async (id) => {
 
 const updateComplejo = async (id, data) =>{
     try {
-        const {name, cuit, logo, addres} = data; 
+        const {name, cuit, logo, address, lat, lng, website, city, active} = data; 
 
         const complejo = await Complejo.findByPk(id);
         complejo.name = name;
         complejo.cuit = cuit;
         complejo.logo = logo;
-        complejo.addres = addres;
+        complejo.address = address;
+        complejo.lat = lat;
+        complejo.lng = lng;
+        complejo.website = website;
+        complejo.city = city;
+        complejo.active = active;
 
         await complejo.save();
     } catch (error) {

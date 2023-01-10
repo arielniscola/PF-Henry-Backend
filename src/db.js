@@ -117,6 +117,16 @@ Court.belongsTo(Complejo,{
   targetId: 'id'
 });
 
+Complejo.hasMany(Reviews, {
+  foreignKey: 'complejoId',
+  sourceKey: 'id'
+})
+
+Reviews.belongsTo(Complejo, {
+  foreignKey:'reviewsId',
+  targetId: 'id'
+})
+
 
 Complejo.belongsToMany(ServicesComplejo, {through: 'complejoServices', foreignKey:'complejoId'})
 ServicesComplejo.belongsToMany(Complejo, { through: 'complejoServices', foreignKey:' servicesComplejoId'})

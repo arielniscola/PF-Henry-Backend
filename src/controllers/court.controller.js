@@ -45,11 +45,19 @@ const deleteCourt = async (req, res) => {
     res.status(400).json(error);
   }
 };
-
+const getCourtComplex = async(req, res) => {
+  try {
+    const courts = courtService.getCourtComplex(req.params.id)
+    res.status(200).json(courts)
+  } catch (error) {
+    res.status(400).json({message: error.message})
+  }
+}
 module.exports = {
   getAllCourt,
   createCourt,
   getCourtID,
   updateCourt,
   deleteCourt,
+  getCourtComplex
 };
