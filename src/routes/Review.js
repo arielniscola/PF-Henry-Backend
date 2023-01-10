@@ -11,11 +11,11 @@ const {
 
 const reviewRoutes = Router();
 
-reviewRoutes.post('/', createReview);
-reviewRoutes.put('/', updateReview);
-reviewRoutes.get('/', getAllReviews);
+reviewRoutes.post('/create', createReview);
+reviewRoutes.put('/update', updateReview);
+reviewRoutes.get('/all', getAllReviews);
 reviewRoutes.get('/complejo-reviews/:id', getReviewsComplejo)
 reviewRoutes.get('/:id', getReviewID);
-reviewRoutes.delete('/:id', deleteReview);
+reviewRoutes.delete('/delete/:id', deleteReview);
 
 module.exports = reviewRoutes;

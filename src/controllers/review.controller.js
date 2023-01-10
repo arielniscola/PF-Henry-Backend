@@ -14,7 +14,7 @@ const getReviewsComplejo = async(req, res) => {
 
 const getAllReviews = async(req, res) => {
     try {
-        const reviews = reviewService.getAllReviews();
+        const reviews =  await reviewService.allReviews();
 
         res.status(200).json(reviews)
     } catch (error) {
@@ -25,7 +25,7 @@ const getAllReviews = async(req, res) => {
 const getReviewID = async(req, res) => {
     try {
         const reviewId = req.params.id;
-        const review = reviewService.getReviewID(reviewId);
+        const review = await reviewService.getReviewID(reviewId);
 
         res.status(200).json(review);
     } catch (error) {
@@ -36,7 +36,7 @@ const getReviewID = async(req, res) => {
 const deleteReview = async(req, res) => {
     try {
         const reviewId = req.params.id;
-        const reviewDeleted = reviewService.deleteReview(reviewId);
+        const reviewDeleted = await reviewService.deleteReview(reviewId);
 
         res.status(200).json(reviewDeleted);
     } catch (error) {
@@ -47,7 +47,7 @@ const deleteReview = async(req, res) => {
 const createReview = async(req, res) => {
     try {
         const review = req.body;
-        const reviewCreated = reviewService.createReview(review);
+        const reviewCreated = await reviewService.createReview(review);
 
         res.status(201).json(reviewCreated);
     } catch (error) {
@@ -58,7 +58,7 @@ const createReview = async(req, res) => {
 const updateReview = async(req, res) => {
     try {
         const reviewData = req.body;
-        const reviewUpdated = reviewService.updateReview(reviewData);
+        const reviewUpdated = await reviewService.updateReview(reviewData);
 
         res.status(201).json(reviewUpdated)
     } catch (error) {
