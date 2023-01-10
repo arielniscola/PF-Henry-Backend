@@ -47,6 +47,8 @@ const createMercadopagoToken = async (data) => {
 const payment = async (data) => {
   const { courtPref } = data
   const clientFromDb = await Client.findOne({ where: { id: courtPref.userId} }); // necesitas el id del usuario... 
+  // const courtReservations = await curt
+  //buscar en la base de datos con el id de la cancha para obtener las preferencias:
   mercadopago.configure({access_token: clientFromDb.mercadopago.access_token})// para buscar el token... 
     let preference = {
       items: [

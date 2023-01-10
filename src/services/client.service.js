@@ -1,22 +1,15 @@
 const bcrypt = require("bcrypt");
 const { generateId } = require("../utils/generateId");
-<<<<<<< HEAD
 const { generateJWT } = require("../utils/generateJWT");
 const { Client, Complejo, Mercadopago } = require('../db');
-=======
 const { generateJWT, decodeJWT } = require("../utils/generateJWT");
 const { Client, Complejo } = require('../db');
->>>>>>> 7e8d2b2778af1e1a4031be8ac0d8fb62457780ec
 const { sendMailValidation, sendMailPasswordRestore, sendMailBannedUser } = require("../libs/notifications");
 
 
 //Trae los clientes de la db
 const getAllClients = async () => {
-<<<<<<< HEAD
     const data = await Client.findAll({include:{model: [Complejo, Mercadopago]}});
-=======
-    const data = await Client.findAll({ include: { model: Complejo } });
->>>>>>> 7e8d2b2778af1e1a4031be8ac0d8fb62457780ec
     if(!data) throw "No data"
     return data
 }
@@ -63,7 +56,6 @@ const createClient = async (data) => {
 
 //trae cliente por id
 const getClientID = async (id) => {
-<<<<<<< HEAD
     if(!id) throw "Id not found"
     const data = await Client.findByPk(id,{
         include: [
@@ -74,25 +66,11 @@ const getClientID = async (id) => {
     console.log(data);
     if(!data) throw "Client not found"
     return data
-=======
-  if(!id) throw "Id not found"
-  const data = await Client.findByPk(id,{
-    include: [
-      Complejo
-    ],
-  });
-  console.log(data);
-  if(!data) throw "Client not found"
-  return data
->>>>>>> 7e8d2b2778af1e1a4031be8ac0d8fb62457780ec
 }
 
 //Actualiza el cliente
 const updateClient = async (id, data) => {
   try {
-<<<<<<< HEAD
-    const { name, celNumber, direction, dni, country, favorites } = data;
-=======
     const { name, celNumber, direction, dni, country, favorites, rol, profile_img } = data;
 
     let imageUpload = null;
@@ -105,7 +83,6 @@ const updateClient = async (id, data) => {
         if(!imageUpload) throw "Error upload image"
      
     }
->>>>>>> 7e8d2b2778af1e1a4031be8ac0d8fb62457780ec
 
     const cliente = await Client.findByPk(id);
     cliente.name = name;
