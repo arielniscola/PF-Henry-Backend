@@ -1,13 +1,13 @@
 const bcrypt = require("bcrypt");
 const { generateId } = require("../utils/generateId");
 const { generateJWT } = require("../utils/generateJWT");
-const { Client, Complejo } = require('../db');
+const { Client, Complejo, Mercadopago } = require('../db');
 const { sendMailValidation, sendMailPasswordRestore, sendMailBannedUser } = require("../libs/notifications");
 
 
 //Trae los clientes de la db
 const getAllClients = async () => {
-    const data = await Client.findAll({include:{model: [Complejo]}});
+    const data = await Client.findAll({include:{model: [Complejo, Mercadopago]}});
     if(!data) throw "No data"
     return data
 } 
@@ -66,7 +66,8 @@ const getClientID = async (id) => {
     if(!id) throw "Id not found"
     const data = await Client.findByPk(id,{
         include: [
-           Complejo
+           Complejo,
+           Mercadopago
         ],
     });
     console.log(data);
@@ -77,7 +78,7 @@ const getClientID = async (id) => {
 //Actualiza el cliente
 const updateClient = async (id, data) => {
   try {
-    const { name, celNumber, direction, dni, country, favrites } = data;
+    const { name, celNumber, direction, dni, country, favorites } = data;
 
     const cliente = await Client.findByPk(id);
     cliente.name = name;
