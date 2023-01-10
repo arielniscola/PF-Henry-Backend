@@ -31,9 +31,14 @@ sequelize.models = Object.fromEntries(capsEntries);
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
 
-const { Client, Complejo, Config, Court, Event, Turno, TypeCourt, ServicesComplejo, Reviews, Favorites } = sequelize.models;
+const { Client, Complejo, Config, Court, Event, Turno, TypeCourt, ServicesComplejo, Reviews, Favorites, Mercadopago } = sequelize.models;
 
 // Complejo.belongsToMany(Event, {through: 'Complejo_Event',  timestamps: false });
+
+Client.hasOne(Mercadopago);
+Mercadopago.belongsTo(Client);
+
+
 Complejo.hasMany(Event,{
   foreignKey: 'complejoId',
   sourceKey: 'id'
