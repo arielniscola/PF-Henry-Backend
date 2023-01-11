@@ -47,7 +47,7 @@ server.post("/payment", (req, res) => {
       },
     ],
     back_urls: {
-      failure: "/failure",
+      failure: "/http://localhost:3000/reservations",
       pending: "/pending",
       success: "http://localhost:3000/reservations",
     },
