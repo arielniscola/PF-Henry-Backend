@@ -14,9 +14,9 @@ const getAllClients = async (req, res) => {
 const createClient = async (req, res) => {
   try {
     const response = await clientService.createClient(req.body);
-    res.status(201).json({ msg: response});
+    res.status(201).json({ msg: response });
   } catch (error) {
-    res.status(400).json(error);
+    res.status(400).json({ message: error.message });
   }
 };
 
@@ -137,4 +137,3 @@ module.exports = {
   clientProfile,
   googleLogin,
 };
-
