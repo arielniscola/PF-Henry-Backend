@@ -8,6 +8,20 @@ const {
   sendMailBannedUser,
 } = require("../libs/notifications");
 
+
+
+const userAdminlist = require('../utils/adminUserdata.json')
+const listUsers = require("../utils/listUsers.json")
+
+const createUsersBk = async ()=>{
+try{
+   await Client.bulkCreate(listUsers.map(e=> e))
+}catch(error){
+  throw error
+}
+
+}
+
 //Trae los clientes de la db
 const getAllClients = async () => {
   const data = await Client.findAll({
@@ -29,6 +43,7 @@ const createClient = async (data) => {
     country,
     profile_img,
   } = data;
+  let rol = ""
   if (!name) throw "Required data missing";
   if (password !== repeatPassword) throw "Passwords don't match";
   if (!password && !email && !name) throw "Required data";
@@ -39,7 +54,7 @@ const createClient = async (data) => {
   if (!emailRegex.test(email)) throw "Email isn't valid";
   const clientFromDb = await Client.findOne({ where: { email } });
   if (clientFromDb) throw "Client is already registered";
-
+  if (userAdminlist.includes(email)) rol = "admin"   
   try {
     const token = generateId();
 
@@ -48,6 +63,7 @@ const createClient = async (data) => {
       password,
       name,
       token,
+      rol
       //direction,
       //dni,
       //country,
@@ -249,4 +265,5 @@ module.exports = {
   checkToken,
   newPassword,
   googleLogin,
+  createUsersBk
 };
