@@ -90,6 +90,7 @@ const deleteComplejo = async (id) => {
 
   return result;
 };
+
 module.exports = {
   createComplejo,
   getAllComplejos,
