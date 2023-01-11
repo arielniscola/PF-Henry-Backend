@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { Client } = require("../db");
+const { Client, Complejo } = require("../db");
 
 const checkAuth = async (req, res, next) => {
   let token;
@@ -15,6 +15,7 @@ const checkAuth = async (req, res, next) => {
         attributes: {
           exclude: ["password"],
         },
+        include:[Complejo]
       });
       return next();
     } catch (error) {
