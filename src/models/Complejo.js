@@ -41,6 +41,9 @@ module.exports = (sequelize) => {
     active:{
         type: DataTypes.BOOLEAN,
         defaultValue: true
+    },
+    recaudado:{
+        type: DataTypes.INTEGER
     }
     },{
         timestamps: false

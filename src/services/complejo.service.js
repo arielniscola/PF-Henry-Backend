@@ -61,7 +61,7 @@ const getComplejoID = async (id) => {
 
 const updateComplejo = async (id, data) =>{
     try {
-        const {name, cuit, logo, address, lat, lng, website, city, active} = data; 
+        const {name, cuit, logo, address, lat, lng, website, city, active, recaudado} = data; 
 
         const complejo = await Complejo.findByPk(id);
         complejo.name = name;
@@ -73,6 +73,7 @@ const updateComplejo = async (id, data) =>{
         complejo.website = website;
         complejo.city = city;
         complejo.active = active;
+        complejo.recaudado = recaudado;
 
         await complejo.save();
     } catch (error) {
