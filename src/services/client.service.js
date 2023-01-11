@@ -1,21 +1,34 @@
 const bcrypt = require("bcrypt");
 const { generateId } = require("../utils/generateId");
 const { generateJWT, decodeJWT } = require("../utils/generateJWT");
-const { Client, Complejo } = require('../db');
-const { sendMailValidation, sendMailPasswordRestore, sendMailBannedUser } = require("../libs/notifications");
-
+const { Client, Complejo } = require("../db");
+const {
+  sendMailValidation,
+  sendMailPasswordRestore,
+  sendMailBannedUser,
+} = require("../libs/notifications");
 
 //Trae los clientes de la db
 const getAllClients = async () => {
-    const data = await Client.findAll({ include: { model: Complejo } });
-    if(!data) throw "No data"
-    return data
-}
+  const data = await Client.findAll({ include: { model: Complejo } });
+  if (!data) throw "No data";
+  return data;
+};
 
 //Crea un cliente
 const createClient = async (data) => {
-  const { email, password, name, repeatPassword, direction, dni, country, profile_img } = data;
-  if(!name) throw "Required data missing"
+  console.log(data);
+  const {
+    email,
+    password,
+    name,
+    repeatPassword,
+    direction,
+    dni,
+    country,
+    profile_img,
+  } = data;
+  if (!name) throw "Required data missing";
   if (password !== repeatPassword) throw "Passwords don't match";
   if (!password && !email && !name) throw "Required data";
   const emailRegex = new RegExp(
@@ -26,7 +39,6 @@ const createClient = async (data) => {
   const clientFromDb = await Client.findOne({ where: { email } });
   if (clientFromDb) throw "Client is already registered";
 
-
   try {
     const token = generateId();
 
@@ -34,7 +46,7 @@ const createClient = async (data) => {
       email,
       password,
       name,
-      token
+      token,
       //direction,
       //dni,
       //country,
@@ -43,8 +55,8 @@ const createClient = async (data) => {
 
     //TODO:
     // ACA SE LE MANDA EL EMAIL DE REGISTRO CON EMAIL, NOMBRE Y TOKEN
-    const notificationSend = await sendMailValidation(name, email, token)
-    if(!notificationSend) throw "Notification not send"
+    const notificationSend = await sendMailValidation(name, email, token);
+    if (!notificationSend) throw "Notification not send";
 
     return "User created successfully, check your email to confirm your account";
   } catch (error) {
@@ -54,31 +66,36 @@ const createClient = async (data) => {
 
 //trae cliente por id
 const getClientID = async (id) => {
-  if(!id) throw "Id not found"
-  const data = await Client.findByPk(id,{
-    include: [
-      Complejo
-    ],
+  if (!id) throw "Id not found";
+  const data = await Client.findByPk(id, {
+    include: [Complejo],
   });
   console.log(data);
-  if(!data) throw "Client not found"
-  return data
-}
+  if (!data) throw "Client not found";
+  return data;
+};
 
 //Actualiza el cliente
 const updateClient = async (id, data) => {
   try {
-    const { name, celNumber, direction, dni, country, favorites, rol, profile_img } = data;
+    const {
+      name,
+      celNumber,
+      direction,
+      dni,
+      country,
+      favorites,
+      rol,
+      profile_img,
+    } = data;
 
     let imageUpload = null;
-    if(profile_img){
-        imageUpload = await cloudinary.uploader.upload(profile_img, {
-           folder: "henry",
-          upload_preset: "ml_default"
-       
-       })
-        if(!imageUpload) throw "Error upload image"
-     
+    if (profile_img) {
+      imageUpload = await cloudinary.uploader.upload(profile_img, {
+        folder: "henry",
+        upload_preset: "ml_default",
+      });
+      if (!imageUpload) throw "Error upload image";
     }
 
     const cliente = await Client.findByPk(id);
@@ -93,7 +110,7 @@ const updateClient = async (id, data) => {
 
     await cliente.save();
   } catch (error) {
-    throw error
+    throw error;
   }
 };
 
@@ -104,11 +121,11 @@ const deleteClient = async (id) => {
 
   const result = await client.save();
 
-  if(result) {
-    const notifications = await sendMailBannedUser(client.email)
-    if(!notifications) throw "Notification not send - Error"
+  if (result) {
+    const notifications = await sendMailBannedUser(client.email);
+    if (!notifications) throw "Notification not send - Error";
   }
-  return result
+  return result;
 };
 
 const authenticateClient = async (data) => {
@@ -160,7 +177,7 @@ const forgotPassword = async (email) => {
     //TODO:
     // ACA LE MANDAS UN EMAIL DE QUE SE OLVIDO PASSWORD. CON EMAIL, NAME Y TOKEN,
     const notificationSend = sendMailPasswordRestore(client.name, email, token);
-    if(!notificationSend) throw "Error send mail"
+    if (!notificationSend) throw "Error send mail";
     return "We sent you an email with instructions";
   } catch (error) {
     throw error;
@@ -232,4 +249,3 @@ module.exports = {
   newPassword,
   googleLogin,
 };
-
