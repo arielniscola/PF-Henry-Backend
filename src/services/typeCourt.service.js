@@ -1,5 +1,5 @@
 const { TypeCourt } = require("../db");
-
+const cloudinary = require("../utils/cluodinary");
 const getAllTypeCourt = async () => {
   const data = await TypeCourt.findAll();
   if (!data) throw "Data not found";
