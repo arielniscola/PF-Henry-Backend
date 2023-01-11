@@ -1,4 +1,4 @@
-const { Turno, Client, Court } = require("../db");
+const { Turno, Client, Court, Complejo } = require("../db");
 
 const getAllTurns = async () => {
   const data = await Turno.findAll({
@@ -81,13 +81,23 @@ const updateTurn = async (id, data) => {
 };
 const getTurnsCourtDate = async (date, courtId) => {
   const formatdate = date.replace("/", "-");
-  const turns = Turno.findAll({
+  const turns = await Turno.findAll({
     where: {
       courtId: courtId,
       date: formatdate,
       state: "reserved",
     },
     include: [{ model: Client }],
+  });
+
+  return turns;
+};
+const getTurnsUser = async (idUser) => {
+  const turns = await Turno.findAll({
+    where: {
+      clienId: idUser,
+    },
+    include: [{ model: Client, include: [Complejo] }],
   });
 
   return turns;
@@ -101,4 +111,5 @@ module.exports = {
   getTurnID,
   updateTurn,
   getTurnsCourtDate,
+  getTurnsUser,
 };

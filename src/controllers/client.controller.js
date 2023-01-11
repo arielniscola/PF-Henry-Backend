@@ -26,7 +26,7 @@ const getClientID = async (req, res) => {
     const data = await clientService.getClientID(req.params.id);
     res.status(200).json(data);
   } catch (error) {
-    res.status(400).json(error);
+    res.status(400).json({ message: error.message });
   }
 };
 
