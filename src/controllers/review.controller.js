@@ -49,6 +49,7 @@ const createReview = async (req, res) => {
     const reviewCreated = await reviewService.createReview(review);
     res.status(201).json(reviewCreated);
   } catch (error) {
+    console.log(error)
     res.status(500).json({ message: error.message });
   }
 };
