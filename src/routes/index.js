@@ -14,6 +14,8 @@ const favorites = require("../routes/Favorites");
 //const event = require("../routes/Event.js");
 const servicescomplejo = require("../routes/ServicesComplejo.js")
 const  review = require("./Review");
+const { route } = require('../routes/Client');
+const mercadopago = require("./Mercadopago.js")
 
 
 // Configurar los routers
@@ -28,6 +30,7 @@ router.use("/servicescomplejo", servicescomplejo)
 router.use("/config", config)
 router.use("/favorites", favorites)
 router.use("/reviews", review);
+router.use("/mercadopago",mercadopago)
 
 
 

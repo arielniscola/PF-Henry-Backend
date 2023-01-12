@@ -1,0 +1,65 @@
+[
+    {
+        "id": 1283210725,
+        "nickname": "TEST_USER_1283210725",
+        "password": "MfQLhZe9Mp",
+        "site_status": "active",
+        "site_id": "MCO",
+        "description": "Ecomerce",
+        "date_created": "2023-01-09T15:31:07-04:00",
+        "date_last_updated": "2023-01-09T15:31:07-04:00"
+      },
+      {
+        "access_token": "APP_USR-6173589259311930-010923-bd2a16181e1c0bee5211555f7ac21997-1283210725",
+        "token_type": "Bearer",
+        "expires_in": 15552000,
+        "scope": "offline_access read write",
+        "user_id": 1283210725,
+        "refresh_token": "TG-63bcde10a5a21e0001bb5681-1283210725",
+        "public_key": "APP_USR-d80534a1-698f-4bb9-a8af-70e0dda953f8",
+        "live_mode": true
+      },
+      {
+        "id": 1283215330,
+        "nickname": "TEST_USER_1283215330",
+        "password": "M3jcRjVuxw",
+        "site_status": "active",
+        "site_id": "MCO",
+        "description": "Comprador",
+        "date_created": "2023-01-09T15:31:23-04:00",
+        "date_last_updated": "2023-01-09T15:31:23-04:00"
+      },
+      {
+        "access_token": "APP_USR-6173589259311930-010923-faca10ad1f48a86eb447ae880767fb5e-1283215330",
+        "token_type": "Bearer",
+        "expires_in": 15552000,
+        "scope": "offline_access read write",
+        "user_id": 1283215330,
+        "refresh_token": "TG-63bcd67ef25e0e0001761cd9-1283215330",
+        "public_key": "APP_USR-28ab5cdc-f0e0-4178-b5b2-aede9c27adb9",
+        "live_mode": true
+      },
+      {
+        "id": 1283215374,
+        "nickname": "TETE7675162",
+        "password": "dXnPtI0yaD",
+        "site_status": "active",
+        "site_id": "MCO",
+        "description": "Vendedor",
+        "date_created": "2023-01-09T15:31:40-04:00",
+        "date_last_updated": "2023-01-09T15:31:40-04:00"
+      },
+      {
+        "access_token": "APP_USR-6173589259311930-010920-b83bd282c0fd7424d78ccc1b72c80385-1283215374",
+        "token_type": "Bearer",
+        "expires_in": 15552000,
+        "scope": "offline_access read write",
+        "user_id": 1283215374,
+        "refresh_token": "TG-63bcb3f8ba79110001751bc5-1283215374",
+        "public_key": "APP_USR-2f37ae72-d1f0-4744-a2fa-2133d681452e",
+        "live_mode": true
+      }
+
+
+
+]

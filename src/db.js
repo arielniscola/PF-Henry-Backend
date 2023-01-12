@@ -6,7 +6,8 @@ const {
   DB_USER, DB_PASSWORD, DB_HOST,DB_NAME,DB_PORT
 } = process.env;
 
-const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`, {
+
+const sequelize = new Sequelize(`postgresql://postgres:${DB_PASS}@containers-us-west-164.railway.app:7754/railway`, {
   logging: false, // set to console.log to see the raw SQL queries
   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
 });
@@ -38,6 +39,19 @@ sequelize.models = Object.fromEntries(capsEntries);
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
 
+
+const { Client, Complejo, Config, Court, Event, Turno, TypeCourt, ServicesComplejo, Reviews, Favorites, Mercadopago } = sequelize.models;
+
+// Complejo.belongsToMany(Event, {through: 'Complejo_Event',  timestamps: false });
+
+Client.hasOne(Mercadopago);
+Mercadopago.belongsTo(Client);
+
+
+Complejo.hasMany(Event,{
+  foreignKey: 'complejoId',
+  sourceKey: 'id'
+
 const {
   Client,
   Complejo,
@@ -55,6 +69,7 @@ const {
 Complejo.hasMany(Event, {
   foreignKey: "complejoId",
   sourceKey: "id",
+
 });
 // Event.belongsToMany(Complejo, {through: 'Complejo_Event',  timestamps: false });
 Event.belongsTo(Complejo, {
