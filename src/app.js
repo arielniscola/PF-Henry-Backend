@@ -47,9 +47,9 @@ server.post("/payment", (req, res) => {
       },
     ],
     back_urls: {
-      failure: "/http://localhost:3000/reservations",
+      failure: "https://deploy-pf.vercel.app/reservations",
       pending: "/pending",
-      success: "http://localhost:3000/reservations",
+      success: "https://deploy-pf.vercel.app/reservations",
     },
     auto_return: "approved",
     binary_mode: true,
