@@ -47,8 +47,6 @@ const createReview = async (review) => {
   const { rating, comment, idClient, idComplejo } = review;
   console.log(review);
   const reviewCreated = await Reviews.create(review);
-  const complejo = await Complejo.findByPk(idComplejo);
-  const client = await Client.findByPk(idClient);
   // if(!complejo || !client || !reviewCreated) throw "Error creating review"
 
   // await complejo.setReviews(reviewCreated);
