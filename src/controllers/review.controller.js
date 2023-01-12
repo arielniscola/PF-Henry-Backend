@@ -1,77 +1,75 @@
 const reviewService = require("../services/review.service");
 
+const getReviewsComplejo = async (req, res) => {
+  try {
+    const idComplejo = req.params.id;
+    const reviews = reviewService.getReviewsComplejo(idComplejo);
 
-const getReviewsComplejo = async(req, res) => {
-    try {
-        const idComplejo = req.params.id;
-        const reviews = reviewService.getReviewsComplejo(idComplejo);
+    res.status(200).json(reviews);
+  } catch (error) {
+    res.status(404).json(error);
+  }
+};
 
-        res.status(200).json(reviews);
-    } catch (error) {
-        res.status(404).json(error);
-    }
-}
+const getAllReviews = async (req, res) => {
+  try {
+    const reviews = reviewService.getAllReviews();
 
-const getAllReviews = async(req, res) => {
-    try {
-        const reviews = reviewService.getAllReviews();
+    res.status(200).json(reviews);
+  } catch (error) {
+    res.status(404).json(error);
+  }
+};
 
-        res.status(200).json(reviews)
-    } catch (error) {
-        res.status(404).json(error)
-    }
-}
+const getReviewID = async (req, res) => {
+  try {
+    const reviewId = req.params.id;
+    const review = reviewService.getReviewID(reviewId);
 
-const getReviewID = async(req, res) => {
-    try {
-        const reviewId = req.params.id;
-        const review = reviewService.getReviewID(reviewId);
+    res.status(200).json(review);
+  } catch (error) {
+    res.status(404).json(error);
+  }
+};
 
-        res.status(200).json(review);
-    } catch (error) {
-        res.status(404).json(error)
-    }
-}
+const deleteReview = async (req, res) => {
+  try {
+    const reviewId = req.params.id;
+    const reviewDeleted = reviewService.deleteReview(reviewId);
 
-const deleteReview = async(req, res) => {
-    try {
-        const reviewId = req.params.id;
-        const reviewDeleted = reviewService.deleteReview(reviewId);
+    res.status(200).json(reviewDeleted);
+  } catch (error) {
+    res.status(404).json(error);
+  }
+};
 
-        res.status(200).json(reviewDeleted);
-    } catch (error) {
-        res.status(404).json(error);
-    }
-}
+const createReview = async (req, res) => {
+  try {
+    const review = req.body;
+    const reviewCreated = await reviewService.createReview(review);
 
-const createReview = async(req, res) => {
-    try {
-        const review = req.body;
-        const reviewCreated = reviewService.createReview(review);
+    res.status(201).json(reviewCreated);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
-        res.status(201).json(reviewCreated);
-    } catch (error) {
-        res.status(500).json(error)
-    }
-}
+const updateReview = async (req, res) => {
+  try {
+    const reviewData = req.body;
+    const reviewUpdated = reviewService.updateReview(reviewData);
 
-const updateReview = async(req, res) => {
-    try {
-        const reviewData = req.body;
-        const reviewUpdated = reviewService.updateReview(reviewData);
-
-        res.status(201).json(reviewUpdated)
-    } catch (error) {
-        res.status(500).json(error)
-    }
-}
-
+    res.status(201).json(reviewUpdated);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
 
 module.exports = {
-    getAllReviews,
-    getReviewsComplejo,
-    getReviewID,
-    deleteReview,
-    createReview,
-    updateReview
-}
+  getAllReviews,
+  getReviewsComplejo,
+  getReviewID,
+  deleteReview,
+  createReview,
+  updateReview,
+};
