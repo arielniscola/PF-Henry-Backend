@@ -5,7 +5,6 @@ const cloudinary = require("../utils/cluodinary");
 const getAllComplejos = async () => {
   const data = await Complejo.findAll({
     where: {
-      deleted: false,
       active: true,
     },
     include: [{ model: Court }],
@@ -23,12 +22,10 @@ const createComplejo = async (data) => {
   if (!client) throw "User not exist";
   if (client.idComplejo) throw "User have complex created";
 
-  // const imageUpload = await cloudinary.uploader.upload(logo, {
-  //        folder: "henry",
-  //     upload_preset: "ml_default"
-
-  //    })
-  //  if(!imageUpload) throw "Error upload image"
+  const imageUpload = await cloudinary.uploader.upload(logo, {
+    folder: "henry",
+    upload_preset: "ml_default",
+  });
   if (!name) throw "Required data missing";
 
   const newComplejo = await Complejo.create({
@@ -39,7 +36,7 @@ const createComplejo = async (data) => {
     lng,
     city,
     clientId: idUser,
-    // logo: imageUpload.secure_url || null
+    logo: imageUpload.secure_url || null,
   });
 
   if (!newComplejo) throw "Complex no created";

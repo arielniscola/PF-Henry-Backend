@@ -21,7 +21,7 @@ const createCourt = async (data) => {
 const getCourtID = async (id) => {
   if (!id) throw "no ID especified";
   const data = await Court.findByPk(id, {
-    include: { model: [TypeCourt] },
+    include: [TypeCourt, Complejo],
   });
   if (!data) throw "No found";
   return data;

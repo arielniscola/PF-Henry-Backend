@@ -2,7 +2,7 @@ const { Turno, Client, Court, Complejo } = require("../db");
 
 const getAllTurns = async () => {
   const data = await Turno.findAll({
-    include: { model: [Client, Court] },
+    include: [{ model: Client, require: true }],
   });
   if (!data) throw "No data";
   return data;
@@ -11,7 +11,7 @@ const getAllTurns = async () => {
 const createTurn = async (data) => {
   console.log(data);
   // if(!idClient || !idCourt) throw "Data required missing";
-  const { date, time_start, idUser, idCourt } = data;
+  const { date, time_start, clientId, courtId } = data;
   if (!date || !time_start) throw "Date and time incorrect";
 
   const newTurn = await Turno.create(data);
@@ -32,6 +32,7 @@ const createTurn = async (data) => {
   // if(!court) throw "court not found"
   // newTurn.addCourts(court);
   // console.log(court);
+  return newTurn;
 };
 
 const deleteTurn = async (idTurn) => {
@@ -47,7 +48,7 @@ const deleteTurn = async (idTurn) => {
 const getTurnsComplejo = async (idComplejo) => {
   const courts = await Court.findAll({
     where: {
-      idComplejo: id,
+      idComplejo: idComplejo,
     },
   });
   const result = await Turno.findAll({
@@ -61,7 +62,7 @@ const getTurnsComplejo = async (idComplejo) => {
 
 const getTurnID = async (id) => {
   const turn = await Turno.findByPk(id, {
-    include: { model: [Client, Court] },
+    include: { model: Court },
   });
   if (!turn) throw "Not found";
   return turn;
@@ -95,9 +96,9 @@ const getTurnsCourtDate = async (date, courtId) => {
 const getTurnsUser = async (idUser) => {
   const turns = await Turno.findAll({
     where: {
-      clienId: idUser,
+      clientId: idUser,
     },
-    include: [{ model: Client, include: [Complejo] }],
+    include: [{ model: Court, include: [{ model: Complejo }] }],
   });
 
   return turns;

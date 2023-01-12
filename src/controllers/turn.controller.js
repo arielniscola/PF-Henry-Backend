@@ -44,7 +44,7 @@ const getTurnID = async (req, res) => {
     const turn = await turnService.getTurnID(req.params.id);
     res.status(200).json(turn);
   } catch (error) {
-    res.status(404).json(error);
+    res.status(404).json({ message: error.message });
   }
 };
 
@@ -54,7 +54,7 @@ const updateTurn = async (req, res) => {
     await turnService.updateTurn(id, req.body);
     res.send("Turn updated successfully");
   } catch (error) {
-    res.status(400).json(error);
+    res.status(400).json({ message: error.message });
   }
 };
 const getTurnsCourtDate = async (req, res) => {

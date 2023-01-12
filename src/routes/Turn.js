@@ -18,5 +18,5 @@ turnRoutes.put("/update/:id", updateTurn);
 turnRoutes.delete("/delete/:id", deletedTurn);
 turnRoutes.get("/complejo-turns/:id", getTurnsComplejo);
 turnRoutes.get("/complejo-turno-date/:date/:id", getTurnsCourtDate);
-turnRoutes.get("/user-turs/:id", getTurnsUser);
+turnRoutes.get("/user-turns/:id", getTurnsUser);
 module.exports = turnRoutes;
