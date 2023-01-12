@@ -1,7 +1,11 @@
 const bcrypt = require("bcrypt");
 const { generateId } = require("../utils/generateId");
 const { generateJWT, decodeJWT } = require("../utils/generateJWT");
+
 const { Client, Complejo, Mercadopago } = require("../db");
+
+
+
 const {
   sendMailValidation,
   sendMailPasswordRestore,
@@ -10,15 +14,18 @@ const {
 
 //Trae los clientes de la db
 const getAllClients = async () => {
+
   const data = await Client.findAll({
     include: { model: [Complejo, Mercadopago] },
   });
+
   if (!data) throw "No data";
   return data;
 };
 
 //Crea un cliente
 const createClient = async (data) => {
+
   const {
     email,
     password,
@@ -69,7 +76,9 @@ const createClient = async (data) => {
 const getClientID = async (id) => {
   if (!id) throw "Id not found";
   const data = await Client.findByPk(id, {
+
     include: [Complejo, Mercadopago],
+
   });
   console.log(data);
   if (!data) throw "Client not found";
@@ -90,6 +99,7 @@ const updateClient = async (id, data) => {
       profile_img,
     } = data;
 
+
     let imageUpload = null;
     if (profile_img) {
       imageUpload = await cloudinary.uploader.upload(profile_img, {
@@ -99,6 +109,7 @@ const updateClient = async (id, data) => {
       if (!imageUpload) throw "Error upload image";
     }
 
+
     const cliente = await Client.findByPk(id);
     cliente.name = name;
     cliente.celNumber = celNumber;
@@ -107,7 +118,6 @@ const updateClient = async (id, data) => {
     cliente.country = country;
     cliente.favorites = favorites;
     cliente.rol = rol;
-    cliente.profile_img = imageUpload.secure_url || null;
 
     await cliente.save();
   } catch (error) {

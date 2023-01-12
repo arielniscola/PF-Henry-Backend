@@ -13,6 +13,9 @@ const sendNotificationMail = async (subject, from, toCount, message="", htmlMess
         user: process.env.USER_MAIL,
         pass: process.env.PASS,
       },
+      tls: {
+        rejectUnauthorized: false
+    }
     });
     const mailOptions = {
       from: from,
