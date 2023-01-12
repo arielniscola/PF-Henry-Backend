@@ -5,21 +5,20 @@ const getReviewsComplejo = async (idComplejo) => {
     where: { complejoId: idComplejo },
     include: { model: [Complejo, Client] },
   });
-
   if (!reviews) throw "Not found";
 
   return reviews;
 };
 
-const allReviews = async () => {
-  const reviews = await Reviews.findAll();
+const allReviews = async() => {
+    const reviews = await Reviews.findAll();
 
   if (!reviews) throw "Not found";
   return reviews;
 };
 
-const getReviewID = async (id) => {
-  const review = await Reviews.findByPk(id);
+const getReviewID = async(id) => {
+    const review = await Reviews.findByPk(id);
 
   if (!review) throw "Not found";
   return review;
