@@ -89,15 +89,6 @@ const updateClient = async (id, data) => {
       profile_img,
     } = data;
 
-    let imageUpload = null;
-    if (profile_img) {
-      imageUpload = await cloudinary.uploader.upload(profile_img, {
-        folder: "henry",
-        upload_preset: "ml_default",
-      });
-      if (!imageUpload) throw "Error upload image";
-    }
-
     const cliente = await Client.findByPk(id);
     cliente.name = name;
     cliente.celNumber = celNumber;
@@ -106,7 +97,6 @@ const updateClient = async (id, data) => {
     cliente.country = country;
     cliente.favorites = favorites;
     cliente.rol = rol;
-    cliente.profile_img = imageUpload.secure_url || null;
 
     await cliente.save();
   } catch (error) {
