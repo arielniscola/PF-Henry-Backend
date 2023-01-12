@@ -17,7 +17,7 @@ const sendMailValidation = async(userName, mail, token) => {
         const htmlMessage = 
         `<h2>Validate account para usuario ${userName}</h2>
         <p>To validate your user account please enter the following link</p>
-        <a href="http://localhost:3000/confirm-account/${token}">Click here</a>        
+        <a href="https://deploy-pf.vercel.app/confirm-account/${token}">Click here</a>        
         `
         const result = await sendNotificationMail(subject, "System Admin" , mail, null, htmlMessage);
         
@@ -33,7 +33,7 @@ const sendMailBannedUser = async (userMail) => {
         const htmlMessage = 
         `<h2>Account has been banned</h2>
         <p>For more information please contact the developers at the following contact form</p>
-        <a href="/">Click here</a>        
+        <a href="https://deploy-pf.vercel.app/contact-us">Click here</a>        
         `
         const result = await sendNotificationMail(subject, "System Admin" , userMail, null, htmlMessage);
          
@@ -50,7 +50,7 @@ const sendMailBannedComplejo = async(userMail) => {
         `<h2>Complejo has been banned</h2>
         <p>Your complex has been removed</p>
         <p>For more information please contact the developers at the following contact form</p>
-        <a href="/">Click here</a>        
+        <a href="https://deploy-pf.vercel.app/contact-us">Click here</a>        
         `
         const result = await sendNotificationMail(subject, "System Admin" , userMail, null, htmlMessage);
          
@@ -66,7 +66,7 @@ const sendMailPasswordRestore = async(userName, mail, token) => {
         const htmlMessage = 
         `<h2>Restore password ${userName}</h2>
         <p>To reset password please enter the following link</p>
-        <a href="http://localhost:3000/forgot-password/${token}">Click here</a>        
+        <a href="https://deploy-pf.vercel.app/forgot-password/${token}">Click here</a>        
         `
         const result = await sendNotificationMail(subject, "System Admin" , mail, null, htmlMessage);
         
